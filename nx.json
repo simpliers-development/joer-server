@@ -2,7 +2,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "joer",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "develop"
   },
   "implicitDependencies": {
     "package.json": {

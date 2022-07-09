@@ -5,7 +5,17 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "eslint": "eslint --cache",
+    "prettier": "prettier --check --cache",
+    "lint": "nx lint",
+    "format": "nx format:check",
+    "e2e": "nx e2e",
+    "affected:e2e": "nx affected --target=e2e",
+    "affected:lint": "nx affected --target=lint",
+    "affected:format": "nx affected --target=format",
+    "affected:test": "nx affected --target=test",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {

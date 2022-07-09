@@ -1,7 +1,43 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": [
+    "@nrwl/nx",
+    "webbylab",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "import/no-commonjs": 0,
+    "func-names": 0,
+    "func-style": 0,
+    "prefer-arrow-callback": 0,
+    "default-case": 0,
+    "more/no-numeric-endings-for-variables": 0,
+    "import/no-extraneous-dependencies": 0,
+    "max-len": [
+      "error",
+      {
+        "comments": 800,
+        "code": 120,
+        "ignoreUrls": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreStrings": true
+      }
+    ],
+    "key-spacing": "error",
+    "@typescript-eslint/no-empty-interface": 0,
+    "import/no-unresolved": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "no-sync": 0,
+    "camelcase": 0,
+    "more/no-hardcoded-configuration-data": 0,
+    "@typescript-eslint/no-var-requires": 0,
+    "more/no-then": 0,
+    "no-magic-numbers": 0,
+    "more/no-hardcoded-password": 0,
+    "max-lines-per-function": ["error", 200]
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],

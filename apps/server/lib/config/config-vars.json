@@ -1,0 +1,42 @@
+{
+    "db":{
+        "dev": {
+             "name": "{{POSTGRES_DB}}",
+             "user": "{{POSTGRES_USER}}",
+             "host": "{{POSTGRES_HOST}}",
+             "dialect": "{{POSTGRES_DIALECT}}",
+             "password": "{{POSTGRES_PASSWORD}}",
+             "port": "{{POSTGRES_PORT}}"
+        },
+        "test": {
+             "name": "{{POSTGRES_TEST_DB}}",
+             "user": "{{POSTGRES_TEST_USER}}",
+             "host": "{{POSTGRES_TEST_HOST}}",
+             "dialect": "{{POSTGRES_DIALECT}}",
+             "password": "{{POSTGRES_TEST_PASSWORD}}",
+             "port": "{{POSTGRES_TEST_PORT}}"
+         },
+         "production": {
+             "name": "{{POSTGRES_DB}}",
+             "user": "{{POSTGRES_USER}}",
+             "host": "{{POSTGRES_HOST}}",
+             "dialect": "{{POSTGRES_DIALECT}}",
+             "password": "{{POSTGRES_PASSWORD}}",
+             "port": "{{POSTGRES_PORT}}"
+         }
+    },
+    "app": {
+        "port": "{{APP_PORT}}"
+    },
+    "jwt": {
+        "saltRounds": "{{SALT_ROUNDS}}"
+    },
+    "email": {
+        "host": "{{EMAIL_HOST}}",
+        "port": "{{EMAIL_PORT}}",
+        "auth": {
+         "user": "{{EMAIL_USER}}",
+         "pass": "{{EMAIL_PASSWORD}}"
+        }
+    }
+ }

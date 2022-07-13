@@ -19,13 +19,17 @@ process.on('SIGINT', function () {
 app.use(bodyParser.json());
 app.use('/api/v1', router);
 
-app.listen(PORT, async () => {
-    console.log(`Listen porn ${PORT}`);
-    try {
-        await db.sequelize.authenticate();
+if (!config.isTest) {
+    app.listen(PORT, async () => {
+        console.log(`Listen porn ${PORT}`);
+        try {
+            await db.sequelize.authenticate();
+    
+            console.log('Connection has been established successfully.');
+        } catch (e) {
+            console.error('Connection to database failed');
+        }
+    });
+}
 
-        console.log('Connection has been established successfully.');
-    } catch (e) {
-        console.error('Connection to database failed');
-    }
-});
+export default app; // for tests

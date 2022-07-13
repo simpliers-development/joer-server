@@ -29,6 +29,7 @@ User.init({
 
     ...User.sequelizeTimeStampFields
 }, {
-    paranoid : true,
+    paranoid  : true,
+    tableName : 'Users',
     sequelize
 });

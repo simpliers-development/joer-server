@@ -1,5 +1,5 @@
 import pointer from 'json-pointer';
-import { toArray } from '../utils/common';
+import { toArray } from '@joer/utils';
 
 
 export default class BaseService {

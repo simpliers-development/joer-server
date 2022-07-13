@@ -3,11 +3,9 @@ import { User } from '../../models';
 import { dumpUser } from '../../utils/dumpUtils';
 import Base from './Base';
 
-interface UserListServiceInput {
-}
 
 export default class UserListService extends Base {
-    static async execute({}: UserListServiceInput) {
+    static async execute() {
         const transaction = await sequelize.transaction();
 
         try {

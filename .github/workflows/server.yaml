@@ -34,3 +34,26 @@ jobs:
 
       - name: Linting files
         run: npm run affected:lint -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD
+
+  run-tests:
+    name: Jest tests
+    needs: 
+      - eslint-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Moving to repository root
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setuping Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: npm
+
+      - name: Installing dependecies
+        run: npm ci
+
+      - name: Testing affected files
+        run: npm run affected:test -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD

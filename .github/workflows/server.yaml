@@ -2,8 +2,8 @@ name: JOER Server
 
 on:
   push:
-    branches: [ "develop" ]
-  on:
+    branches: 
+      - develop
   pull_request:
     branches:
       - develop

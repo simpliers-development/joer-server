@@ -5,7 +5,8 @@ import { User } from '../lib/models';
 
 export {
     users,
-    User
+    User,
+    sequelize
 };
 
 export default class TestFactory {

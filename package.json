@@ -6,6 +6,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "nx test --watch --runInBand --detectOpenHandles --forceExit",
     "eslint": "eslint --cache",
     "prettier": "prettier --check --cache",
     "lint": "nx lint",

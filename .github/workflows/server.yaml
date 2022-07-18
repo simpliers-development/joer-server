@@ -33,4 +33,4 @@ jobs:
         run: npm ci
 
       - name: Linting files
-        run: npm run affected:lint --base="origin/${GITHUB_BASE_REF}" --head=HEAD
+        run: npm run affected:lint --base="remotes/origin/${GITHUB_BASE_REF}" --head=HEAD

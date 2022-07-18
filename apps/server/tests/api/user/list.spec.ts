@@ -37,7 +37,7 @@ describe('User List', () => {
                     expect(body.status).toBe(1);
 
                     const expected = {
-                        data : [ 'required', { 'list_of_objects' : {
+                        data : [ "required", { 'list_of_objects' : {
                             id        : [ 'required', 'uuid' ],
                             email     : [ 'required', 'email' ],
                             username  : [ 'required', 'string' ],

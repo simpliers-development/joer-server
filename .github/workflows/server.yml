@@ -1,0 +1,36 @@
+name: JOER Server
+
+on:
+  push:
+    branches: [ "develop" ]
+  on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+
+jobs:
+  eslint-check:
+    name: ESLint checking
+    runs-on: ubuntu-latest
+    steps:
+      - name: Moving to repository root
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setuping Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: npm
+
+      - name: Installing dependecies
+        run: npm ci
+
+      - name: Linting files
+        run: npm run affected:lint --base="origin/${GITHUB_BASE_REF}" --head=HEAD

@@ -1,11 +1,11 @@
-import Sequelize from 'sequelize';
-import { user, common } from '../types';
+import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes } from 'sequelize';
+import { common } from '../types';
 import { sequelize } from '../db';
 import Base from './Base';
 
 
-export default class User extends Base<user.IUser, user.IUserCreate> {
-    declare id: common.uuid;
+export default class User extends Base<InferAttributes<User>, InferCreationAttributes<User>> {
+    declare id: CreationOptional<common.uuid>;
 
     declare email: string;
 
@@ -31,5 +31,6 @@ User.init({
 }, {
     paranoid  : true,
     tableName : 'Users',
+    modelName : 'User',
     sequelize
 });

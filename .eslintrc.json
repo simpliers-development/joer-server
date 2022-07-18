@@ -25,7 +25,17 @@
         "ignoreStrings": true
       }
     ],
-    "key-spacing": "error",
+    "key-spacing": ["error", {
+      "singleLine": {
+          "beforeColon": false,
+          "afterColon": true
+      },
+      "multiLine": {
+          "beforeColon": true,
+          "afterColon": true,
+          "align": "colon"
+      }
+  }],
     "@typescript-eslint/no-empty-interface": 0,
     "import/no-unresolved": 0,
     "@typescript-eslint/no-explicit-any": 0,
@@ -37,35 +47,5 @@
     "no-magic-numbers": 0,
     "more/no-hardcoded-password": 0,
     "max-lines-per-function": ["error", 200]
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
-          "error",
-          {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
-      "rules": {}
-    }
-  ]
+  }
 }

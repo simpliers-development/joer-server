@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import config from './lib/config';
 import db from './lib/db';
+import './lib/models';
 import router from './lib/router';
 
 const app = express();
@@ -24,9 +25,10 @@ if (!config.isTest) {
         console.log(`Listen porn ${PORT}`);
         try {
             await db.sequelize.authenticate();
-    
+
             console.log('Connection has been established successfully.');
         } catch (e) {
+            console.log(e);
             console.error('Connection to database failed');
         }
     });

@@ -1,7 +1,9 @@
+import { formatDate } from '@joer/utils';
+import { InferAttributes } from 'sequelize/types';
 import { User } from '../models';
 
 
-export const dumpUser = (user: User) : Partial<User> => {
+export const dumpUser = (user: User) : Partial<InferAttributes<User>> => {
     return {
         id        : user.id,
         email     : user.email,
@@ -9,7 +11,7 @@ export const dumpUser = (user: User) : Partial<User> => {
         firstname : user.firstname,
         lastname  : user.lastname,
 
-        createdAt : user.createdAt,
-        updatedAt : user.updatedAt
+        createdAt : formatDate(user.createdAt) as unknown as Date,
+        updatedAt : formatDate(user.updatedAt) as unknown as Date
     };
 };

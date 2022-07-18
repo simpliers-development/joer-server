@@ -20,7 +20,9 @@ export class ServiceRunner {
 
                     if (service.validationRules) {
                         validationResponce = validate(params, service.validationRules);
-                    } else {
+                    }
+
+                    if (service.validation) {
                         validationResponce = await service.validation(params);
                     }
 

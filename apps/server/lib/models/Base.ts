@@ -1,15 +1,11 @@
-import Sequelize, { ModelAttributes, ModelStatic, Transaction, WhereOptions } from 'sequelize';
+import Sequelize, { CreationOptional, ModelAttributes, ModelStatic, Transaction, WhereOptions } from 'sequelize';
 import { uuid, TransactionOptions } from '../types/common';
 import { throwError } from '../types/error';
 
 export default class Base<T, K> extends Sequelize.Model<T, K> {
-    declare createdAt: Date;
+    declare createdAt: CreationOptional<Date>;
 
-    declare updatedAt: Date;
-
-    public constructor() {
-        super();
-    }
+    declare updatedAt: CreationOptional<Date>;
 
     static sequelizeTimeStampFields = {
         createdAt : { type: Sequelize.DATE, allowNull: false },
@@ -30,7 +26,6 @@ export default class Base<T, K> extends Sequelize.Model<T, K> {
 
         if (this.getDataValue(field) === value) return;
 
-        console.log(this.constructor.name);
         const existingEmail = await model.findOne({
             where : {
                 [field] : value

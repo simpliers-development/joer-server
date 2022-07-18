@@ -13,4 +13,8 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/server',
+  verbose: true,
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true
 };

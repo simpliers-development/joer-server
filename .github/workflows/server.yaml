@@ -59,6 +59,7 @@ jobs:
 
       - name: Setup env
         run: |
+          echo ${HOME}
           $ENV_BACKEND_STORAGE | base64 -d > ./apps/server/.env
 
       - name: Testing affected files

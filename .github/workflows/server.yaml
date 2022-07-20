@@ -37,8 +37,8 @@ jobs:
 
   run-tests:
     name: Jest tests
-    # needs: 
-      # - eslint-check
+    needs: 
+      - eslint-check
     runs-on: ubuntu-latest
     env:
       ENV_BACKEND_STORAGE: ${{ secrets.ENV_BACKEND_STORAGE }}

@@ -77,5 +77,9 @@ jobs:
         run: |
           echo "$ENV_BACKEND_STORAGE" | base64 -d > ./apps/server/.env
 
+      - name:  Run migrations
+        run: |
+          npm run migration-test server
+
       - name: Testing affected files
         run: npm run affected:test -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD

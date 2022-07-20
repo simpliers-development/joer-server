@@ -37,8 +37,8 @@ jobs:
 
   run-tests:
     name: Jest tests
-    needs: 
-      - eslint-check
+    # needs: 
+      # - eslint-check
     runs-on: ubuntu-latest
     env:
       ENV_BACKEND_STORAGE: ${{ secrets.ENV_BACKEND_STORAGE }}
@@ -59,8 +59,7 @@ jobs:
 
       - name: Setup env
         run: |
-          echo ${HOME}
-          $ENV_BACKEND_STORAGE | base64 -d > ./apps/server/.env
+          echo "$ENV_BACKEND_STORAGE" | base64 -d > ./apps/server/.env
 
       - name: Testing affected files
         run: npm run affected:test -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD

@@ -40,6 +40,9 @@ jobs:
     needs: 
       - eslint-check
     runs-on: ubuntu-latest
+    env: 
+      POSTGRES_DB: joer
+      POSTGRES_USER: postgres
     steps:
       - name: Moving to repository root
         uses: actions/checkout@v3

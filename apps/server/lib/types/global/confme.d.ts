@@ -17,15 +17,15 @@ declare module 'confme' {
                     'dialect': string
                     'password': string
                     'port': number
-                },
-                'production': {
+            },
+            'production': {
                     'name': string
                     'user': string
                     'host': string
                     'dialect': string
                     'password': string
                     'port': number
-                }
+            }
         },
         'app': {
             'port': number

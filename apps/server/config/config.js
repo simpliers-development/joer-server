@@ -22,10 +22,15 @@ module.exports = {
         dialect  : config.db.test.dialect
     },
     production : {
-        username : config.db.production.user,
-        password : config.db.production.password,
-        database : config.db.production.name,
-        host     : config.db.production.host,
-        dialect  : config.db.production.dialect
+        'use_env_variable' : 'DATABASE_URL',
+        dialect            : 'postgres',
+        protocol           : 'postgres',
+        ssl                : true,
+        dialectOptions     : {
+            ssl : {
+                require            : true,
+                rejectUnauthorized : false
+            }
+        }
     }
 };

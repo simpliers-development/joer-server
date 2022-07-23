@@ -23,7 +23,7 @@
             "dialect": ["required", "string"],
             "password": ["required", "string"],
             "port": ["required", "positive_integer"]
-        }}]   
+        }}]
     }}],
     "app": ["required", {"nested_object": {
         "port": ["required", "positive_integer"]

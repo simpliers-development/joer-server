@@ -1,0 +1,1 @@
+release: npx sequelize-cli db:migrate --config apps/server/config/config.js --migrations-path apps/server/migrations

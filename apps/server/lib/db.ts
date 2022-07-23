@@ -28,8 +28,12 @@ if (!config.isTest) {
 }
 
 const connectionString = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}`;
+const herokuString = process.env.DATABASE_URL || '';
 
-export const sequelize = new Sequelize(connectionString, {
+
+const connect = process.env.NODE_ENV === 'production' ? herokuString : connectionString;
+
+export const sequelize = new Sequelize(connect, {
     logging : config.isTest ? false : console.log
 });
 

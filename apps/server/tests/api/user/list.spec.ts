@@ -40,9 +40,9 @@ describe('User List', () => {
                         data : [ 'required', { 'list_of_objects' : {
                             id        : [ 'required', 'uuid' ],
                             email     : [ 'required', 'email' ],
-                            username  : [ 'required', 'string' ],
-                            firstname : [ 'required', 'string' ],
-                            lastname  : [ 'required', 'string' ],
+                            userName  : [ 'required', 'string' ],
+                            firstName : [ 'required', 'string' ],
+                            lastName  : [ 'required', 'string' ],
                             createdAt : [ 'required' ],
                             updatedAt : [ 'required' ]
                         } } ]

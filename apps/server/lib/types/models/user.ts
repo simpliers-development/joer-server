@@ -5,10 +5,10 @@ import { IBaseAttributes, IBaseCreate } from './base';
 export interface IUserAttributes {
     id: uuid;
     email: string;
-    username: string;
+    userName: string;
     password: string;
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
 }
 
 type IUserAttributesCreate = Optional<IUserAttributes, 'id'>

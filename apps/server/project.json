@@ -52,6 +52,20 @@
             "options": {
                 "command": "npx sequelize-cli db:migrate --config apps/server/config/config.js --migrations-path apps/server/migrations"
             }
+        },
+        "migration:undo": {
+            "executor": "nx:run-commands",
+            "outputs": [],
+            "options": {
+                "command": "npx sequelize-cli db:migrate:undo --config apps/server/config/config.js --migrations-path apps/server/migrations"
+            }
+        },
+        "migration:clean": {
+            "executor": "nx:run-commands",
+            "outputs": [],
+            "options": {
+                "command": "npx sequelize-cli db:migrate:undo:all --config apps/server/config/config.js --migrations-path apps/server/migrations"
+            }
         }
     },
     "tags": []

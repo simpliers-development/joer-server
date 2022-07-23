@@ -9,23 +9,23 @@ export default class User extends Base<InferAttributes<User>, InferCreationAttri
 
     declare email: string;
 
-    declare username: string;
+    declare userName: string;
 
     declare password: string;
 
-    declare firstname: string;
+    declare firstName: string;
 
-    declare lastname: string;
+    declare lastName: string;
 }
 
 
 User.init({
     id        : { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true },
     email     : { type: Sequelize.STRING, unique: true, allowNull: false },
-    username  : { type: Sequelize.STRING, unique: true, allowNull: false },
+    userName  : { type: Sequelize.STRING, unique: true, allowNull: false },
     password  : { type: Sequelize.STRING, allowNull: false },
-    firstname : { type: Sequelize.STRING, allowNull: true },
-    lastname  : { type: Sequelize.STRING, allowNull: true },
+    firstName : { type: Sequelize.STRING, allowNull: true },
+    lastName  : { type: Sequelize.STRING, allowNull: true },
 
     ...User.sequelizeTimeStampFields
 }, {

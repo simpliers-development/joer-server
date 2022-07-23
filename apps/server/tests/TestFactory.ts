@@ -27,10 +27,10 @@ export default class TestFactory {
             return User.bulkCreate(users.map(u => ({
                 id        : u.id,
                 email     : u.email,
-                username  : u.username,
+                userName  : u.userName,
                 password  : u.password,
-                firstname : u.password,
-                lastname  : u.lastname,
+                firstName : u.password,
+                lastName  : u.lastName,
                 createdAt : u.createdAt as unknown as Date,
                 updatedAt : u.updatedAt as unknown as Date
             })));

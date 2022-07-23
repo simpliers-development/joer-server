@@ -10,10 +10,10 @@ export default class UserCreateService extends Base {
     static get validationRules() {
         return {
             email     : [ 'required', 'email' ],
-            username  : [ 'required', 'string' ],
+            userName  : [ 'required', 'string' ],
             password  : [ 'required', 'string', { 'min_length': 4 } ],
-            firstname : [ 'required', 'string' ],
-            lastname  : [ 'required', 'string' ]
+            firstName : [ 'required', 'string' ],
+            lastName  : [ 'required', 'string' ]
         };
     }
 
@@ -23,7 +23,7 @@ export default class UserCreateService extends Base {
         try {
             if (await User.findOne({ where: { email: data.email } })) throwError('NOT_UNIQUE', 'email');
 
-            if (await User.findOne({ where: { username: data.username } })) throwError('NOT_UNIQUE', 'username');
+            if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
 
             const newUser = await User.create({
                 ...data

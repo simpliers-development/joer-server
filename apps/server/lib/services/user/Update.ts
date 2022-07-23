@@ -10,9 +10,9 @@ export default class UserUpdateService extends Base {
         return {
             id        : [ 'required', 'uuid' ],
             email     : [ 'required', 'email' ],
-            username  : [ 'required', 'string' ],
-            firstname : [ 'required', 'string' ],
-            lastname  : [ 'required', 'string' ]
+            userName  : [ 'required', 'string' ],
+            firstName : [ 'required', 'string' ],
+            lastName  : [ 'required', 'string' ]
         };
     }
 
@@ -30,9 +30,9 @@ export default class UserUpdateService extends Base {
 
             const newUser = await user.update({
                 email     : data.email,
-                username  : data.username,
-                firstname : data.firstname,
-                lastname  : data.lastname
+                userName  : data.userName,
+                firstName : data.firstName,
+                lastName  : data.lastName
             }, { transaction });
 
             await transaction.commit();

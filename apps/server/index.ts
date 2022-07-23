@@ -27,7 +27,7 @@ if (!config.isTest) {
             await db.sequelize.authenticate();
 
             console.log('Connection has been established successfully.');
-        } catch (e) {
+        } catch (e: any) {
             console.log(e);
             console.error('Connection to database failed');
         }

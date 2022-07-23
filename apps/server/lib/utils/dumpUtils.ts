@@ -7,9 +7,9 @@ export const dumpUser = (user: User) : Partial<InferAttributes<User>> => {
     return {
         id        : user.id,
         email     : user.email,
-        username  : user.username,
-        firstname : user.firstname,
-        lastname  : user.lastname,
+        userName  : user.userName,
+        firstName : user.firstName,
+        lastName  : user.lastName,
 
         createdAt : formatDate(user.createdAt) as unknown as Date,
         updatedAt : formatDate(user.updatedAt) as unknown as Date

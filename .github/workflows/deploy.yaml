@@ -1,13 +1,9 @@
 name: JOER Server
 on:
-  pull_request:
+  push:
     branches:
       - develop
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - edited
+
 jobs:
   eslint-check:
     name: ESLint checking
@@ -26,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Linting files
-        run: npm run affected:lint -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD
+        run: npm run eslint
 
   run-tests:
     name: Jest tests
@@ -70,7 +66,7 @@ jobs:
         run: |
           npm run migration-test server
       - name: Testing affected files
-        run: npm run affected:test -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD
+        run: npm run test
 
   db-setup:
     name: Test db-setup

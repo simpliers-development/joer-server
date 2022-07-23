@@ -1,1 +1,2 @@
-release: npx sequelize-cli db:migrate --config apps/server/config/config.js --migrations-path apps/server/migrations
+release: npx nx migration server
+web: npx nx serve server

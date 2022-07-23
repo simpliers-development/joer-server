@@ -1,6 +1,8 @@
 name: JOER Server
-
 on:
+  push:
+    branches: 
+      - develop
   pull_request:
     branches:
       - develop
@@ -9,7 +11,6 @@ on:
       - synchronize
       - reopened
       - edited
-
 jobs:
   eslint-check:
     name: ESLint checking
@@ -19,13 +20,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Setuping Node
         uses: actions/setup-node@v3
         with:
           node-version: 14
           cache: npm
-
       - name: Installing dependecies
         run: npm ci
 
@@ -39,6 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV_BACKEND_STORAGE: ${{ secrets.ENV_BACKEND_STORAGE }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
     services:
       postgres:
         image: postgres:12
@@ -70,56 +72,8 @@ jobs:
       - name: Setup env
         run: |
           echo "$ENV_BACKEND_STORAGE" | base64 -d > ./apps/server/.env
-
       - name:  Run migrations
         run: |
           npm run migration-test server
-
       - name: Testing affected files
         run: npm run affected:test -- --base="origin/${GITHUB_BASE_REF}" --head=HEAD
-
-  db-setup:
-    name: Test db-setup
-    needs: 
-      - eslint-check
-    runs-on: ubuntu-latest
-    env:
-      ENV_BACKEND_STORAGE: ${{ secrets.ENV_BACKEND_STORAGE }}
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_PASSWORD: admin
-          POSTGRES_DB: joer_test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-    steps:
-      - name: Moving to repository root
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setuping Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          cache: npm
-
-      - name: Installing dependecies
-        run: npm ci
-
-      - name: Setup env
-        run: |
-          echo "$ENV_BACKEND_STORAGE" | base64 -d > ./apps/server/.env
-
-      - name:  Run migrations
-        run: |
-          npm run migration-test server
-
-      - name: Cleanup
-        run: npm run migration-test:clean server

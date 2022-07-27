@@ -34,7 +34,8 @@ const herokuString = process.env.DATABASE_URL || '';
 const connect = process.env.NODE_ENV === 'production' ? herokuString : connectionString;
 
 export const sequelize = new Sequelize(connect, {
-    logging : config.isTest ? false : console.log
+    logging : config.isTest ? false : console.log,
+    ssl     : true
 });
 
 const db = {

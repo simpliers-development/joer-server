@@ -1,2 +1,2 @@
-release: npx sequelize db:migrate:all
+release: npx sequelize-cli db:migrate --config apps/server/config/config.js --migrations-path apps/server/migrations
 web: node dist/apps/server/main.js

@@ -1,1 +1,2 @@
-web: node dist/apps/server/main.js && npx sequelize db:migrate:all
+release: npx sequelize db:migrate:all
+web: node dist/apps/server/main.js

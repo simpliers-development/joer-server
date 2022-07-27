@@ -6,7 +6,7 @@ import './lib/models';
 import router from './lib/router';
 
 const app = express();
-const PORT = config.app.port;
+const PORT = process.env.PORT || config.app.port;
 
 process.once('SIGUSR2', function () {
     process.kill(process.pid, 'SIGUSR2');

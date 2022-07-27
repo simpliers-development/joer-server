@@ -9,15 +9,20 @@
     "test:watch": "nx test --watch --runInBand --detectOpenHandles --forceExit",
     "eslint": "eslint --cache",
     "lint": "nx lint --max-warnings=0",
+
     "migration-dev": "nx migration",
     "migration-dev:undo": "nx migration:undo",
     "migration-dev:clean": "nx migration:clean",
     "migration-test": "cross-env NODE_ENV=test nx migration",
     "migration-test:undo": "cross-env NODE_ENV=test nx migration:undo",
     "migration-test:clean": "cross-env NODE_ENV=test nx migration:clean",
+
     "affected:lint": "nx affected --target=lint --max-warnings=0",
     "affected:test": "nx affected --target=test",
-    "prepare": "husky install"
+    
+    "prepare": "husky install",
+
+    "heroku-postbuild": "nx build $PROJECT_NAME --prod"
   },
   "private": true,
   "dependencies": {

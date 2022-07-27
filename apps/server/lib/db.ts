@@ -33,15 +33,25 @@ const herokuString = process.env.DATABASE_URL || '';
 
 const connect = process.env.NODE_ENV === 'production' ? herokuString : connectionString;
 
-export const sequelize = new Sequelize(connect, {
-    logging        : config.isTest ? false : console.log,
-    dialectOptions : {
-        ssl : {
-            require            : true,
-            rejectUnauthorized : false
-        }
+export const sequelize = (() => {
+    if (process.env.NODE_ENV === 'production') {
+        return new Sequelize(connect, {
+            logging        : config.isTest ? false : console.log,
+            dialectOptions : {
+                ssl : {
+                    require            : true,
+                    rejectUnauthorized : false
+                }
+            }
+        });
     }
-});
+
+    return new Sequelize(connect, {
+        logging : config.isTest ? false : console.log,
+        ssl     : false
+    });
+})();
+
 
 const db = {
     Sequelize,

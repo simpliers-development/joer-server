@@ -29,7 +29,8 @@
         "port": "{{APP_PORT}}"
     },
     "jwt": {
-        "saltRounds": "{{SALT_ROUNDS}}"
+        "saltRounds": "{{SALT_ROUNDS}}",
+        "secret":  "{{SECRET_KEY}}"
     },
     "email": {
         "host": "{{EMAIL_HOST}}",

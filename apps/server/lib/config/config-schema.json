@@ -7,7 +7,7 @@
             "dialect": ["required", "string"],
             "password": ["required", "string"],
             "port": ["required", "positive_integer"]
-        }}], 
+        }}],
         "test": ["required", {"nested_object": {
             "name": ["required", "string"],
             "user": ["required", "string"],
@@ -15,7 +15,7 @@
             "dialect": ["required", "string"],
             "password": ["required", "string"],
             "port": ["required", "positive_integer"]
-        }}],   
+        }}],
         "production": ["required", {"nested_object": {
             "name": ["required", "string"],
             "user": ["required", "string"],
@@ -29,14 +29,15 @@
         "port": ["required", "positive_integer"]
     }}],
     "jwt": ["required", {"nested_object": {
-        "saltRounds": ["required", "positive_integer"]
+        "saltRounds": ["required", "positive_integer"],
+        "secret": ["required", "string"]
     }}],
     "email": ["required", {"nested_object": {
         "host": ["required", "string"],
         "port": ["required", "string"],
         "auth": ["required", {"nested_object": {
             "user": ["required", "string"],
-            "pass": ["required", "string"]    
+            "pass": ["required", "string"]
         }}]
     }}],
     "isTest": ["boolean"]

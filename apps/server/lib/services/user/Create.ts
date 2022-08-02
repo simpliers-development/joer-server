@@ -1,8 +1,11 @@
+import { hash, genSalt } from 'bcrypt';
 import { sequelize } from '../../db';
 import { User } from '../../models';
 import { throwError } from '../../types/error';
 import { IUserCreate } from '../../types/models/user';
 import { dumpUser } from '../../utils/dumpUtils';
+import config from '../../config';
+import TokenService from '../token/index';
 import Base from './Base';
 
 
@@ -25,14 +28,26 @@ export default class UserCreateService extends Base {
 
             if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
 
-            const newUser = await User.create({
-                ...data
-            }, { transaction });
+            const saltRounds = config.jwt.saltRounds;
+            const salt = await genSalt(saltRounds);
+            const hashPassword = await hash(data.password, salt);
 
-            await transaction.commit();
+            const newUser = await User.create(
+                {
+                    ...data,
+                    password : hashPassword
+                },
+                { transaction }
+            );
+
+            const tokens = await TokenService.generateTokens({
+                email    : newUser.email,
+                username : newUser.userName
+            });
 
             return {
-                data : dumpUser(newUser)
+                data : dumpUser(newUser),
+                ...tokens
             };
         } catch (e) {
             await transaction.rollback();

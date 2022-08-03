@@ -1,4 +1,4 @@
-import AuthHelper from './auth-helper';
+// import AuthHelper from './auth-helper';
 
 describe('authHelper', () => {
     it('should work', () => {

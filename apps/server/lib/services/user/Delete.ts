@@ -7,7 +7,7 @@ interface UserDeleteServiceInput {
     id: string
 }
 
-export default class UserDeleteService extends Base {
+export default class DeleteService extends Base {
     static get validationRules() {
         return {
             id : [ 'required', 'uuid' ]

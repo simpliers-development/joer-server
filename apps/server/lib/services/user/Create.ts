@@ -1,22 +1,20 @@
-import { hash, genSalt } from 'bcrypt';
 import { sequelize } from '../../db';
 import { User } from '../../models';
 import { throwError } from '../../types/error';
 import { IUserCreate } from '../../types/models/user';
 import { dumpUser } from '../../utils/dumpUtils';
-import config from '../../config';
-import TokenService from '../token/index';
+import BaseAuthService from '../session/Base';
 import Base from './Base';
 
-
-export default class UserCreateService extends Base {
+export default class CreateService extends Base {
     static get validationRules() {
         return {
-            email     : [ 'required', 'email' ],
-            userName  : [ 'required', 'string' ],
-            password  : [ 'required', 'string', { 'min_length': 4 } ],
-            firstName : [ 'required', 'string' ],
-            lastName  : [ 'required', 'string' ]
+            email           : [ 'required', 'email' ],
+            userName        : [ 'required', 'string' ],
+            password        : [ 'required', 'string', { 'min_length': 4 } ],
+            confirmPassword : [ 'required', 'string', { 'min_length': 4 } ],
+            firstName       : [ 'required', 'string' ],
+            lastName        : [ 'required', 'string' ]
         };
     }
 
@@ -28,9 +26,9 @@ export default class UserCreateService extends Base {
 
             if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
 
-            const saltRounds = config.jwt.saltRounds;
-            const salt = await genSalt(saltRounds);
-            const hashPassword = await hash(data.password, salt);
+            if (data.password !== data.confirmPassword) throwError('NOT_MATCH', 'password');
+
+            const hashPassword = await BaseAuthService.helper.hashPassword(data.password);
 
             const newUser = await User.create(
                 {
@@ -40,7 +38,7 @@ export default class UserCreateService extends Base {
                 { transaction }
             );
 
-            const tokens = await TokenService.generateTokens({
+            const tokens = await BaseAuthService.helper.generateTokens({
                 email    : newUser.email,
                 username : newUser.userName
             });

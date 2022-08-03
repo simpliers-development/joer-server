@@ -30,7 +30,12 @@
     }}],
     "jwt": ["required", {"nested_object": {
         "saltRounds": ["required", "positive_integer"],
-        "secret": ["required", "string"]
+        "secret": ["required", "string"],
+        "access": ["required", "string"],
+        "refresh": ["required", "string"],
+        "issuer": ["required", "string"],
+        "subject": ["required", "string"],
+        "audience": ["required", "string"]
     }}],
     "email": ["required", {"nested_object": {
         "host": ["required", "string"],

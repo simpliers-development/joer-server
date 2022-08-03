@@ -30,7 +30,12 @@
     },
     "jwt": {
         "saltRounds": "{{SALT_ROUNDS}}",
-        "secret":  "{{SECRET_KEY}}"
+        "secret":  "{{SECRET_KEY}}",
+        "access": "{{ACCESS_EXPIRATION}}",
+        "refresh": "{{REFRESH_EXPIRATION}}",
+        "issuer":"{{ISSUER}}",
+        "subject":"{{SUBJECT}}",
+        "audience":"{{AUDIENCE}}"
     },
     "email": {
         "host": "{{EMAIL_HOST}}",

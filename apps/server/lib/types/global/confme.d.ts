@@ -31,8 +31,13 @@ declare module 'confme' {
             'port': number
         },
         'jwt': {
-            secret: any
+            'secret': any
             'saltRounds': number
+            'access': string
+            'issuer': string
+            'subject': string
+            'audience': string
+            'refresh': string
         },
         'email': {
             'host': string

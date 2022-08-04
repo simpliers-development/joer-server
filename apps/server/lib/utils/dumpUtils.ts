@@ -15,3 +15,9 @@ export const dumpUser = (user: User) : Partial<InferAttributes<User>> => {
         updatedAt : formatDate(user.updatedAt) as unknown as Date
     };
 };
+
+export const dumpTokenData = (user: User) : Partial<InferAttributes<User>> => {
+    return {
+        id : user.id
+    };
+};

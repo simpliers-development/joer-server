@@ -33,11 +33,11 @@ declare module 'confme' {
         'jwt': {
             'secret': any
             'saltRounds': number
-            'access': string
+            'accessExpireTime': string
             'issuer': string
             'subject': string
             'audience': string
-            'refresh': string
+            'refreshExpireTime': string
         },
         'email': {
             'host': string

@@ -31,8 +31,8 @@
     "jwt": ["required", {"nested_object": {
         "saltRounds": ["required", "positive_integer"],
         "secret": ["required", "string"],
-        "access": ["required", "string"],
-        "refresh": ["required", "string"],
+        "accessExpireTime": ["required", "string"],
+        "refreshExpireTime": ["required", "string"],
         "issuer": ["required", "string"],
         "subject": ["required", "string"],
         "audience": ["required", "string"]

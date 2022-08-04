@@ -8,7 +8,7 @@ interface UserShowServiceInput {
     id: string
 }
 
-export default class ShowService extends Base {
+export default class UserShowService extends Base {
     static get validationRules() {
         return {
             id : [ 'required', 'uuid' ]

@@ -31,8 +31,8 @@
     "jwt": {
         "saltRounds": "{{SALT_ROUNDS}}",
         "secret":  "{{SECRET_KEY}}",
-        "access": "{{ACCESS_EXPIRATION}}",
-        "refresh": "{{REFRESH_EXPIRATION}}",
+        "accessExpireTime": "{{ACCESS_EXPIRATION}}",
+        "refreshExpireTime": "{{REFRESH_EXPIRATION}}",
         "issuer":"{{ISSUER}}",
         "subject":"{{SUBJECT}}",
         "audience":"{{AUDIENCE}}"

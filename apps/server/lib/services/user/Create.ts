@@ -1,12 +1,12 @@
 import { sequelize } from '../../db';
 import { User } from '../../models';
 import { throwError } from '../../types/error';
+import X from '../../types/global/X';
 import { IUserCreate } from '../../types/models/user';
-import { dumpUser } from '../../utils/dumpUtils';
-import BaseAuthService from '../session/Base';
+import { dumpUser, dumpTokenData } from '../../utils/dumpUtils';
 import Base from './Base';
 
-export default class CreateService extends Base {
+export default class UserCreateService extends Base {
     static get validationRules() {
         return {
             email           : [ 'required', 'email' ],
@@ -26,9 +26,17 @@ export default class CreateService extends Base {
 
             if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
 
-            if (data.password !== data.confirmPassword) throwError('NOT_MATCH', 'password');
+            if (data.password !== data.confirmPassword) {
+                throw new X({
+                    code   : 'AUTHENTICATION_FAILED',
+                    fields : {
+                        password        : 'INVALID',
+                        confirmPassword : 'INVALID'
+                    }
+                });
+            }
 
-            const hashPassword = await BaseAuthService.helper.hashPassword(data.password);
+            const hashPassword = await this.authHelper.hashPassword(data.password);
 
             const newUser = await User.create(
                 {
@@ -38,10 +46,9 @@ export default class CreateService extends Base {
                 { transaction }
             );
 
-            const tokens = await BaseAuthService.helper.generateTokens({
-                email    : newUser.email,
-                username : newUser.userName
-            });
+            const tokens = await this.authHelper.generateTokens(dumpTokenData(newUser));
+
+            await transaction.commit();
 
             return {
                 data : dumpUser(newUser),

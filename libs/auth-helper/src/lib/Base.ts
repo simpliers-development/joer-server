@@ -5,8 +5,8 @@ interface JwtData{
     issuer: string,
     subject: string,
     audience: string,
-    accessExpiresIn: string,
-    refreshExpiresIn: string,
+    accessExpireTime : string,
+    refreshExpireTime: string,
     saltRounds: number
 }
 
@@ -39,8 +39,8 @@ export class BaseService {
         };
 
         this.TOKEN_OPTIONS = {
-            accessToken  : data.accessExpiresIn,
-            refreshToken : data.refreshExpiresIn
+            accessToken  : data.accessExpireTime,
+            refreshToken : data.refreshExpireTime
         };
     }
 }

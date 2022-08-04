@@ -8,7 +8,7 @@ interface UserTestServiceInput {
     users: { name : string }[]
 }
 
-export default class TestService extends Base {
+export default class UserTestService extends Base {
     static validation(data: any) {
         const validationRules = {
             users : [ 'required', { 'list_of_objects' : [ {

@@ -5,7 +5,7 @@ import { IUserAttributes } from '../../types/models/user';
 import { dumpUser } from '../../utils/dumpUtils';
 import Base from './Base';
 
-export default class UpdateService extends Base {
+export default class UserUpdateService extends Base {
     static get validationRules() {
         return {
             id        : [ 'required', 'uuid' ],

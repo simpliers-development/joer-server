@@ -36,6 +36,23 @@ export function throwError(type: string, data?: any): never {
                     keys : key
                 })))
             });
+        case 'TOKEN_EXPIRED':
+            throw new X({
+                code   : 'TOKEN_EXPIRED',
+                fields : errTypedFields(data.map(({ type: errType, key }: ErrTypedField) => ({
+                    type : errType,
+                    keys : key
+                })))
+            });
+        case 'BAD_TOKEN':
+            throw new X({
+                code   : 'BAD_TOKEN',
+                fields : errTypedFields(data.map(({ type: errType, key }: ErrTypedField) => ({
+                    type : errType,
+                    keys : key
+                })))
+            });
+
         default:
             throw new X({
                 code    : 'UNKNOWN_ERROR',

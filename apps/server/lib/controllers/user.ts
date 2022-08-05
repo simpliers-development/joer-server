@@ -14,5 +14,5 @@ export default {
     delete : ServiceRunner.runService(Delete, (req: Request) => ({ id: req.params.id })),
     create : ServiceRunner.runService(Create, (req: Request) => ({ ...req.body })),
     update : ServiceRunner.runService(Update, (req: Request) => ({ ...req.body, id: req.params.id })),
-    test   : ServiceRunner.runService(Test, (req: Request) => ({ ...req.body }))
+    test   : ServiceRunner.runService(Test, (req: Request) => ({ users: req.body.data || [] }))
 };

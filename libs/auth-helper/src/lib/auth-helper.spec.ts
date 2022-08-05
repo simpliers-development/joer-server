@@ -6,7 +6,7 @@ const JwtData: any = {
     subject           : 'string',
     audience          : 'string',
     accessExpireTime  : '15m',
-    refreshExpireTime : '15d',
+    refreshExpireTime : '20m',
     saltRounds        : 3
 };
 
@@ -22,25 +22,40 @@ beforeAll(() => {
 });
 
 describe('authHelper', () => {
-    it('should generate access and refresh tokens', async () => {
-        const tokens = await authHelper.generateTokens(payload);
+    it('should generate access and refresh tokens', () => {
+        const tokens = authHelper.generateTokens(payload);
 
         expect(tokens.accessToken).toBeDefined();
         expect(tokens.refreshToken).toBeDefined();
-        expect(tokens.accessToken).toBeInstanceOf(String);
-        expect(tokens.refreshToken).toBeInstanceOf(String);
+        expect(typeof tokens.accessToken).toEqual('string');
+        expect(typeof tokens.refreshToken).toEqual('string');
     });
-    it('should generate access token only', async () => {
-        const token = await authHelper.generateAccessToken(payload);
+    it('should generate access token only', () => {
+        const token = authHelper.generateAccessToken(payload);
 
         expect(token).toBeDefined();
-        expect(token).toBeInstanceOf(String);
+        expect(typeof token).toEqual('string');
     });
-    it('should verify token', async () => {
-        const token = await authHelper.generateAccessToken(payload);
-        const result = await authHelper.verifyToken(token);
+    it('should verify token', () => {
+        const token = authHelper.generateAccessToken(payload);
+        const result = authHelper.verifyToken(token);
 
         expect(result).toBeDefined();
-        console.log(result);
+        expect(result.id).toEqual(payload.id);
+        expect(result.name).toEqual(payload.name);
+    });
+    it('should verify password', async () => {
+        const password = 'password';
+        const hashPassword = await authHelper.hashPassword(password);
+        const result = await authHelper.comparePassword(password, hashPassword);
+
+        expect(result).toBeDefined();
+        expect(result).toBeTruthy();
+    });
+    it('should not verify password', async () => {
+        const password = 'password';
+        const hashPassword = 'someOtherPassword';
+
+        expect(authHelper.comparePassword(password, hashPassword)).rejects.toThrow(Error);
     });
 });

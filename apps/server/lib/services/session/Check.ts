@@ -10,7 +10,7 @@ export default class SessionCheckService extends BaseSessionService {
 
     static async execute(token: string) {
         try {
-            const userData = await this.authHelper.verifyToken(token);
+            const userData = this.authHelper.verifyToken(token);
             const user = await this.checkUser(userData.id);
 
             return user;

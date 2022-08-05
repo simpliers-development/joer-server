@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { promisify } from 'util';
 import { compare, genSalt, hash } from 'bcrypt';
-import jwt, { SignOptions, VerifyOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { BaseService } from './Base';
 
 interface ITokens {
@@ -9,22 +7,13 @@ interface ITokens {
     refreshToken: string;
 }
 
-type SignCallback = (err: any, result: string) => void;
-type VerifyCallback = (err: any, result: Record<string, any>) => void;
-
-const jwtSign = promisify((payload: Record<string, any>, secret:string, options: SignOptions, _: SignCallback) =>
-    jwt.sign(payload, secret, options));
-
-const jwtVerify = promisify((token: string, secret:string, options: VerifyOptions, _: VerifyCallback) =>
-    jwt.verify(token, secret, options));
-
 export class AuthHelper extends BaseService {
-    generateTokens = async (payload: Record<string, any>): Promise<ITokens> => {
-        const accessToken = await jwtSign(payload, this.secret, {
+    generateTokens = (payload: Record<string, any>): ITokens => {
+        const accessToken = jwt.sign(payload, this.secret, {
             ...this.SIGN_OPTIONS,
             expiresIn : this.TOKEN_OPTIONS.accessToken
         });
-        const refreshToken = await jwtSign(payload, this.secret, {
+        const refreshToken = jwt.sign(payload, this.secret, {
             ...this.SIGN_OPTIONS,
             expiresIn : this.TOKEN_OPTIONS.refreshToken
         });
@@ -35,8 +24,8 @@ export class AuthHelper extends BaseService {
         };
     };
 
-    generateAccessToken = async (payload: Record<string, any>): Promise<string> => {
-        const accessToken = await jwtSign(payload, this.secret, {
+    generateAccessToken = (payload: Record<string, any>): string => {
+        const accessToken = jwt.sign(payload, this.secret, {
             ...this.SIGN_OPTIONS,
             expiresIn : this.TOKEN_OPTIONS.accessToken
         });
@@ -44,9 +33,9 @@ export class AuthHelper extends BaseService {
         return accessToken;
     };
 
-    verifyToken = async (token: string): Promise<any> => {
+    verifyToken = (token: string): any => {
         try {
-            const result = await jwtVerify(token, this.secret, this.VERIFY_OPTIONS);
+            const result = jwt.verify(token, this.secret, this.VERIFY_OPTIONS);
 
             return result;
         } catch (e: any) {

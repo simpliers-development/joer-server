@@ -46,7 +46,7 @@ export default class UserCreateService extends Base {
                 { transaction }
             );
 
-            const tokens = await this.authHelper.generateTokens(dumpTokenData(newUser));
+            const tokens = this.authHelper.generateTokens(dumpTokenData(newUser));
 
             await transaction.commit();
 

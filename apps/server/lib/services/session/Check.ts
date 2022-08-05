@@ -1,7 +1,7 @@
 import { throwError } from '../../types/error';
 import BaseSessionService from './Base';
 
-export default class CheckService extends BaseSessionService {
+export default class SessionCheckService extends BaseSessionService {
     static get validationRules() {
         return {
             token : [ 'required', 'string' ]

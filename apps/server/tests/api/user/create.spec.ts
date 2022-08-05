@@ -67,8 +67,6 @@ describe('User create', () => {
             .send(newUser)
             .expect(200)
             .then(({ body }) => {
-                expect(body.status).toBe(0);
-
                 const expected = {
                     status : 0,
                     error  : {
@@ -118,5 +116,9 @@ describe('User create', () => {
 
                 expect(body).toStrictEqual(expected);
             });
+    });
+
+    afterAll(async () => {
+        await factory.cleanUp();
     });
 });

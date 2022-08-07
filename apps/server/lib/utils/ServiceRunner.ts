@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Request, Response } from 'express';
+import { DEFAULT_COOKIE_OPTS } from '../constants/cookies';
 import BaseService from '../services/Base';
 import { TypedError } from '../types/error';
 import X from '../types/global/X';
@@ -11,6 +12,7 @@ type ParamsBuilder = (req: Request) => any;
 interface IRunnerOptions {
     isFinal?: boolean
 }
+
 
 export class ServiceRunner {
     static runService(service: typeof BaseService, paramsBuilder: ParamsBuilder, {
@@ -33,6 +35,12 @@ export class ServiceRunner {
                     }
 
                     const serviceResponce = await service.execute(validationResponce);
+
+                    const cookies = service.cookies(serviceResponce);
+
+                    cookies.forEach(cookie => {
+                        res.cookie(cookie.name, cookie.value, DEFAULT_COOKIE_OPTS);
+                    });
 
                     if (isFinal) {
                         return res.json({

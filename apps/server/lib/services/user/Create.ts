@@ -27,6 +27,15 @@ export default class UserCreateService extends Base {
         };
     }
 
+    static cookies = (_data: any) => {
+        return [
+            {
+                name  : 'token',
+                value : _data.accessToken
+            }
+        ];
+    };
+
     static async execute(data: IUserCreate) {
         const transaction = await sequelize.transaction();
 

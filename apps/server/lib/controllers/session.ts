@@ -4,5 +4,5 @@ import { ServiceRunner } from '../utils/ServiceRunner';
 
 
 export default {
-    check : ServiceRunner.runService(Check, (req: Request) => ({ token: req.cookies.token }))
+    check : ServiceRunner.runService(Check, (req: Request) => ({ token: req.cookies.accessToken }))
 };

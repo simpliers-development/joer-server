@@ -35,5 +35,7 @@ export default class BaseService {
     public static errors: Record<string, (data: { type: string; data: any }) => void> = {};
 
     public static authHelper = new AuthHelper(config.jwt);
+
+    public static context: any;
 }
 

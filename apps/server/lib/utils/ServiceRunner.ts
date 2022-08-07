@@ -8,8 +8,14 @@ import validate from './livr';
 
 type ParamsBuilder = (req: Request) => any;
 
+interface IRunnerOptions {
+    isFinal?: boolean
+}
+
 export class ServiceRunner {
-    static runService(service: typeof BaseService, paramsBuilder: ParamsBuilder) {
+    static runService(service: typeof BaseService, paramsBuilder: ParamsBuilder, {
+        isFinal = true
+    }: IRunnerOptions = {}) {
         return async (req: Request, res: Response) => {
             try {
                 const params = paramsBuilder(req);
@@ -28,10 +34,14 @@ export class ServiceRunner {
 
                     const serviceResponce = await service.execute(validationResponce);
 
-                    return res.json({
-                        ...serviceResponce,
-                        status : 1
-                    });
+                    if (isFinal) {
+                        return res.json({
+                            ...serviceResponce,
+                            status : 1
+                        });
+                    }
+
+                    return serviceResponce;
                 } catch (e : unknown) {
                     if (e instanceof TypedError) {
                         if (Object.keys(service.errors).includes(e.type)) {
@@ -74,5 +84,13 @@ export class ServiceRunner {
                 });
             }
         };
+    }
+
+    static setContext(payload: any) {
+        BaseService.context = payload;
+    }
+
+    static getContext() {
+        return BaseService.context;
     }
 }

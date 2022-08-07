@@ -1,3 +1,4 @@
+
 declare module 'livr/lib/Validator' {
     export default class Validator {
         constructor(some: any)

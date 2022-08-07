@@ -3,7 +3,7 @@ import { InferAttributes } from 'sequelize/types';
 import { User } from '../models';
 
 
-export const dumpUser = (user: User) : Partial<InferAttributes<User>> => {
+export const dumpUser = (user: User) => {
     return {
         id        : user.id,
         email     : user.email,

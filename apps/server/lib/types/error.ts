@@ -60,20 +60,6 @@ export function checkDefaultErrors(type: string, data: string): never | void {
                 [data] : 'NOT_UNIQUE'
             }
         });
-    } else if (type === 'TOKEN_EXPIRED') {
-        throw new X({
-            code   : 'TOKEN_EXPIRED',
-            fields : {
-                [data] : 'TOKEN_EXPIRED'
-            }
-        });
-    } else if (type === 'BAD_TOKEN') {
-        throw new X({
-            code   : 'BAD_TOKEN',
-            fields : {
-                [data] : 'BAD_TOKEN'
-            }
-        });
     }
 }
 

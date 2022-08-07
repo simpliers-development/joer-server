@@ -11,19 +11,19 @@ interface IUserCreate {
     email: string;
     userName: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirmation: string;
     firstName: string;
     lastName: string;
 }
 export default class UserCreateService extends Base {
     static get validationRules() {
         return {
-            email           : [ 'required', 'email' ],
-            userName        : [ 'required', 'string' ],
-            password        : [ 'required', 'string', { 'min_length': 4 } ],
-            confirmPassword : [ 'required', { equal_to_field: 'password' } ],
-            firstName       : [ 'required', 'string' ],
-            lastName        : [ 'required', 'string' ]
+            email                : [ 'required', 'email' ],
+            userName             : [ 'required', 'string' ],
+            password             : [ 'required', 'string', { 'min_length': 4 } ],
+            passwordConfirmation : [ 'required', { equal_to_field: 'password' } ],
+            firstName            : [ 'required', 'string' ],
+            lastName             : [ 'required', 'string' ]
         };
     }
 
@@ -35,12 +35,12 @@ export default class UserCreateService extends Base {
 
             if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
 
-            if (data.password !== data.confirmPassword) {
+            if (data.password !== data.passwordConfirmation) {
                 throw new X({
                     code   : 'AUTHENTICATION_FAILED',
                     fields : {
-                        password        : 'INVALID',
-                        confirmPassword : 'INVALID'
+                        password             : 'INVALID',
+                        passwordConfirmation : 'INVALID'
                     }
                 });
             }

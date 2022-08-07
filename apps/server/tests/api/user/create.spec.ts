@@ -8,21 +8,21 @@ const request = supertest.agent(app);
 const factory = new TestFactory();
 
 const newUser = {
-    email           : 'email@gmail.com',
-    firstName       : 'MyName',
-    lastName        : 'MySurname',
-    userName        : 'MyUsername',
-    password        : 'agz4ndZv',
-    confirmPassword : 'agz4ndZv'
+    email                : 'email@gmail.com',
+    firstName            : 'MyName',
+    lastName             : 'MySurname',
+    userName             : 'MyUsername',
+    password             : 'agz4ndZv',
+    passwordConfirmation : 'agz4ndZv'
 };
 
 const wrongPassUser = {
-    email           : 'newemail@gmail.com',
-    firstName       : 'MyName',
-    lastName        : 'MySurname',
-    userName        : 'newUsername',
-    password        : 'agz4ndZv',
-    confirmPassword : 'wrongPassword'
+    email                : 'newemail@gmail.com',
+    firstName            : 'MyName',
+    lastName             : 'MySurname',
+    userName             : 'newUsername',
+    password             : 'agz4ndZv',
+    passwordConfirmation : 'wrongPassword'
 };
 
 describe('User create', () => {
@@ -114,7 +114,7 @@ describe('User create', () => {
                         error  : {
                             code   : 'FORMAT_ERROR',
                             fields : {
-                                confirmPassword : 'FIELDS_NOT_EQUAL'
+                                passwordConfirmation : 'FIELDS_NOT_EQUAL'
                             }
                         }
                     };

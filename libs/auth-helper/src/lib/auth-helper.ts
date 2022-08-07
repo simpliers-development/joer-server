@@ -78,8 +78,6 @@ export class AuthHelper {
         try {
             const result = jwt.verify(token, this.secret, this.VERIFY_OPTIONS);
 
-            console.log(result);
-
             return result;
         } catch (e: any) {
             if (e instanceof jwt.TokenExpiredError) {

@@ -16,7 +16,6 @@ export default {
 
         const user = dumpUser(userData);
 
-        // eslint-disable-next-line no-param-reassign, require-atomic-updates
         ServiceRunner.setContext({
             user : {
                 id       : user.id,

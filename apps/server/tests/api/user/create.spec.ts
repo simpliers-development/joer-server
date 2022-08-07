@@ -100,7 +100,7 @@ describe('User create', () => {
                 });
         });
     });
-    describe('given missmatched passwords', () => {
+    describe('given missmatching passwords', () => {
         it('should return password missmath error', async () => {
             await request
                 .post('/api/v1/users')

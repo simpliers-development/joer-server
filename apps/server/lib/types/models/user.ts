@@ -7,7 +7,6 @@ export interface IUserAttributes {
     email: string;
     userName: string;
     password: string;
-    confirmPassword: string;
     firstName: string;
     lastName: string;
 }

@@ -31,7 +31,7 @@ declare module 'confme' {
             'port': number
         },
         'jwt': {
-            'secret': any
+            'secret': string
             'saltRounds': number
             'accessExpireTime': string
             'issuer': string

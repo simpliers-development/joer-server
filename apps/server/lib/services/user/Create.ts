@@ -1,18 +1,27 @@
 import { sequelize } from '../../db';
 import { User } from '../../models';
+import { uuid } from '../../types/common';
 import { throwError } from '../../types/error';
 import X from '../../types/global/X';
-import { IUserCreate } from '../../types/models/user';
 import { dumpUser, dumpTokenData } from '../../utils/dumpUtils';
 import Base from './Base';
 
+interface IUserCreate {
+    id: uuid;
+    email: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
+    firstName: string;
+    lastName: string;
+}
 export default class UserCreateService extends Base {
     static get validationRules() {
         return {
             email           : [ 'required', 'email' ],
             userName        : [ 'required', 'string' ],
             password        : [ 'required', 'string', { 'min_length': 4 } ],
-            confirmPassword : [ 'required', 'string', { 'min_length': 4 } ],
+            confirmPassword : [ 'required', { equal_to_field: 'password' } ],
             firstName       : [ 'required', 'string' ],
             lastName        : [ 'required', 'string' ]
         };

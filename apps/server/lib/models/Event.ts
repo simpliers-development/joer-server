@@ -56,6 +56,16 @@ Event.init({
     isQRNeeded       : { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
     location         : { type: Sequelize.STRING, allowNull: false },
 
+    organizatorId : {
+        type       : Sequelize.UUID,
+        onDelete   : 'CASCADE',
+        references : {
+            model : 'Users',
+            key   : 'id'
+        },
+        allowNull : false
+    },
+
     ...Event.sequelizeTimeStampFields
 }, {
     paranoid  : true,

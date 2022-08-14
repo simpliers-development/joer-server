@@ -15,6 +15,7 @@ router.delete('/users/:id', controllers.user.delete);
 
 // Events
 router.get('/events', controllers.event.list);
+router.post('/events', checkSession, controllers.event.create);
 
 
 router.get('/test', checkSession, controllers.user.test);

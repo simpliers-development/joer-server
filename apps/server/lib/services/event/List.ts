@@ -4,7 +4,7 @@ import { dumpEvent } from '../../utils/dumpUtils';
 import Base from './Base';
 
 
-export default class UserListService extends Base {
+export default class EventListService extends Base {
     static async execute() {
         const transaction = await sequelize.transaction();
 

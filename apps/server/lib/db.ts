@@ -52,7 +52,6 @@ export const sequelize = (() => {
     });
 })();
 
-
 const db = {
     Sequelize,
     sequelize

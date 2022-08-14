@@ -1,4 +1,4 @@
-import Sequelize, { CreationOptional, ModelAttributes, ModelStatic, Transaction, WhereOptions } from 'sequelize';
+import Sequelize, { CreationOptional, FindOptions, ModelAttributes, ModelStatic, WhereOptions } from 'sequelize';
 import { uuid, TransactionOptions } from '../types/common';
 import { throwError } from '../types/error';
 
@@ -7,13 +7,17 @@ export default class Base<T, K> extends Sequelize.Model<T, K> {
 
     declare updatedAt: CreationOptional<Date>;
 
+    static initRelation() {
+        return;
+    }
+
     static sequelizeTimeStampFields = {
         createdAt : { type: Sequelize.DATE, allowNull: false },
         updatedAt : { type: Sequelize.DATE, allowNull: false },
         deletedAt : { type: Sequelize.DATE, allowNull: true }
     };
 
-    static async findById<N extends Sequelize.Model>(this: ModelStatic<N>, id: uuid, opts?: { transaction: Transaction})
+    static async findById<N extends Sequelize.Model>(this: ModelStatic<N>, id: uuid, opts?: Omit<FindOptions, 'where'>)
         : Promise<N | null> {
         return this.findByPk(id, opts);
     }

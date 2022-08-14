@@ -1,6 +1,7 @@
 import { formatDate } from '@joer/utils';
 import { InferAttributes } from 'sequelize/types';
 import { User } from '../models';
+import Event from '../models/Event';
 
 
 export const dumpUser = (user: User) => {
@@ -13,6 +14,25 @@ export const dumpUser = (user: User) => {
 
         createdAt : formatDate(user.createdAt) as unknown as Date,
         updatedAt : formatDate(user.updatedAt) as unknown as Date
+    };
+};
+
+export const dumpEvent = (event: Event) => {
+    return {
+        id               : event.id,
+        name             : event.name,
+        description      : event.description,
+        topic            : event.topic,
+        isOffline        : event.isOffline,
+        isPublic         : event.isPublic,
+        beginDate        : event.beginDate,
+        finishDate       : event.finishDate,
+        participantLimit : event.participantLimit,
+        isQRNeeded       : event.isQRNeeded,
+        location         : event.location,
+
+        createdAt : formatDate(event.createdAt) as unknown as Date,
+        updatedAt : formatDate(event.updatedAt) as unknown as Date
     };
 };
 

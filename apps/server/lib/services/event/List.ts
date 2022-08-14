@@ -1,6 +1,6 @@
 import { sequelize } from '../../db';
-import { User } from '../../models';
-import { dumpUser } from '../../utils/dumpUtils';
+import Event from '../../models/Event';
+import { dumpEvent } from '../../utils/dumpUtils';
 import Base from './Base';
 
 
@@ -9,13 +9,12 @@ export default class UserListService extends Base {
         const transaction = await sequelize.transaction();
 
         try {
-            const users = await User.findAll({ transaction });
-
+            const events = await Event.findAll({ transaction });
 
             await transaction.commit();
 
             return {
-                data : users.map(dumpUser)
+                data : events.map(dumpEvent)
             };
         } catch (e) {
             await transaction.rollback();

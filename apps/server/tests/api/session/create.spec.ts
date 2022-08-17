@@ -20,16 +20,19 @@ describe('User create', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();
+            await request.post('/api/v1/signup')
+                .send(newUser)
+                .expect(200);
         } catch (e) {
             console.error(e);
             throw e;
         }
     });
     describe('given correct user data', () => {
-        it('should return a created user', async () => {
+        it('should return user and tokens', async () => {
             await request
-                .post('/api/v1/signup')
-                .send(newUser)
+                .post('/api/v1/signin')
+                .send({ email: newUser.email, password: newUser.password })
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(1);
@@ -53,61 +56,19 @@ describe('User create', () => {
                 });
         });
     });
-    describe('given not unique fields', () => {
-        it('should return email not unique error', async () => {
-            await User.create(newUser);
+    describe('given not wrong password', () => {
+        it('should return wrong error', async () => {
             await request
-                .post('/api/v1/signup')
-                .send(newUser)
+                .post('/api/v1/signin')
+                .send({ email: newUser.email, password: 'wrong' })
                 .expect(200)
                 .then(({ body }) => {
                     const expected = {
                         status : 0,
                         error  : {
-                            fields : { email: 'NOT_UNIQUE' },
-                            code   : 'NOT_UNIQUE'
-                        }
-                    };
-
-                    expect(body).toStrictEqual(expected);
-                });
-        });
-        it('should return username not unique error', async () => {
-            await User.create(newUser);
-            await request
-                .post('/api/v1/signup')
-                .send({ ...newUser, email: 'new@email.com' })
-                .expect(200)
-                .then(({ body }) => {
-                    expect(body.status).toBe(0);
-
-                    const expected = {
-                        status : 0,
-                        error  : {
-                            fields : { userName: 'NOT_UNIQUE' },
-                            code   : 'NOT_UNIQUE'
-                        }
-                    };
-
-                    expect(body).toStrictEqual(expected);
-                });
-        });
-    });
-    describe('given missmatching passwords', () => {
-        it('should return password missmath error', async () => {
-            await request
-                .post('/api/v1/signup')
-                .send({ ...newUser, passwordConfirmation: 'wringPassword' })
-                .expect(200)
-                .then(({ body }) => {
-                    expect(body.status).toBe(0);
-
-                    const expected = {
-                        status : 0,
-                        error  : {
-                            code   : 'FORMAT_ERROR',
+                            code   : 'WRONG_PASSWORD',
                             fields : {
-                                passwordConfirmation : 'FIELDS_NOT_EQUAL'
+                                user : 'WRONG_PASSWORD'
                             }
                         }
                     };
@@ -115,10 +76,28 @@ describe('User create', () => {
                     expect(body).toStrictEqual(expected);
                 });
         });
-    });
+        it('should return username not unique error', async () => {
+            await request
+                .post('/api/v1/signin')
+                .send({ email: 'not_exist@mail.com', password: 'doesnt_matter' })
+                .expect(200)
+                .then(({ body }) => {
+                    expect(body.status).toBe(0);
 
-    afterEach(async () => {
-        await factory.cleanUp();
+                    const expected = {
+                        status : 0,
+                        error  : {
+                            code   : 'NOT_FOUND',
+                            fields : {
+                                user : 'NOT_FOUND'
+                            }
+                        }
+                    };
+
+
+                    expect(body).toStrictEqual(expected);
+                });
+        });
     });
 
     afterAll(async () => {

@@ -1,6 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import supertest from 'supertest';
-import TestFactory, { User } from '../../TestFactory';
+import TestFactory from '../../TestFactory';
 import validate from '../../../lib/utils/livr';
 import app from '../../../index';
 

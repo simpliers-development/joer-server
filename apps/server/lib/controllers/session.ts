@@ -8,13 +8,13 @@ export default {
     check : async (request: Request, responce: Response, next: NextFunction) => {
         const userData = await ServiceRunner.runService(
             Check,
-            (req: Request) => ({ token: req?.cookies?.token }),
+            (req: Request) => ({ ...req.cookies }),
             {
                 isFinal : false
             }
         )(request, responce);
 
-        const user = dumpUser(userData);
+        const user = dumpUser(userData.user);
 
         ServiceRunner.setContext({
             user : {

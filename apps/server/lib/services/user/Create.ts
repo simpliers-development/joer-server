@@ -30,8 +30,12 @@ export default class UserCreateService extends Base {
     static cookies = (_data: any) => {
         return [
             {
-                name  : 'token',
+                name  : 'accessToken',
                 value : _data.accessToken
+            },
+            {
+                name  : 'refreshToken',
+                value : _data.refreshToken
             }
         ];
     };

@@ -36,6 +36,13 @@ export function throwError(type: string, data?: any): never {
                     keys : key
                 })))
             });
+        case 'BAD_TOKEN':
+            throw new X({
+                code   : 'BAD_TOKEN',
+                fields : {
+                    token : 'BAD_TOKEN'
+                }
+            });
         default:
             throw new X({
                 code    : 'UNKNOWN_ERROR',

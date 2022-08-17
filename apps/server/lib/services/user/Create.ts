@@ -2,7 +2,6 @@ import { sequelize } from '../../db';
 import { User } from '../../models';
 import { uuid } from '../../types/common';
 import { throwError } from '../../types/error';
-import X from '../../types/global/X';
 import { dumpUser, dumpTokenData } from '../../utils/dumpUtils';
 import Base from './Base';
 

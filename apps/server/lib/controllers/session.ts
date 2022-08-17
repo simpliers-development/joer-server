@@ -1,8 +1,10 @@
 import { Request } from 'express';
 import Check from '../services/session/Check';
+import Create from '../services/session/Create';
 import { ServiceRunner } from '../utils/ServiceRunner';
 
 
 export default {
-    check : ServiceRunner.runService(Check, (req: Request) => ({ token: req.cookies.accessToken }))
+    create : ServiceRunner.runService(Create, (req: Request) => ({ ...req.body })),
+    check  : ServiceRunner.runService(Check, (req: Request) => ({ token: req.cookies.accessToken }))
 };

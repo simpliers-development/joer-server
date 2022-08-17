@@ -26,6 +26,7 @@ export default class UserCreateService extends Base {
         };
     }
 
+
     static async execute(data: IUserCreate) {
         const transaction = await sequelize.transaction();
 

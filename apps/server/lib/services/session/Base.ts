@@ -13,4 +13,15 @@ export default class BaseSessionService extends Base {
 
         return user;
     }
+
+    public static async checkToken(token: string) {
+        const userData = this.authHelper.verifyToken(token);
+        const user = await this.checkUser(userData.id);
+
+        if (!user) {
+            throwError('NOT_FOUND', 'user');
+        }
+
+        return user;
+    }
 }

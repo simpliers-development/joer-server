@@ -36,6 +36,13 @@ export function throwError(type: string, data?: any): never {
                     keys : key
                 })))
             });
+        case 'BAD_TOKEN':
+            throw new X({
+                code   : 'BAD_TOKEN',
+                fields : {
+                    token : 'BAD_TOKEN'
+                }
+            });
         default:
             throw new X({
                 code    : 'UNKNOWN_ERROR',
@@ -58,20 +65,6 @@ export function checkDefaultErrors(type: string, data: string): never | void {
             code   : 'NOT_UNIQUE',
             fields : {
                 [data] : 'NOT_UNIQUE'
-            }
-        });
-    } else if (type === 'TOKEN_EXPIRED') {
-        throw new X({
-            code   : 'TOKEN_EXPIRED',
-            fields : {
-                user : 'TOKEN_EXPIRED'
-            }
-        });
-    } else if (type === 'BAD_TOKEN') {
-        throw new X({
-            code   : 'BAD_TOKEN',
-            fields : {
-                user : 'BAD_TOKEN'
             }
         });
     }

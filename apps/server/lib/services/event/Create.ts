@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { sequelize } from '../../db';
+import { User } from '../../models';
 import Event from '../../models/Event';
 import { dumpEvent } from '../../utils/dumpUtils';
 import Base from './Base';
@@ -52,6 +53,11 @@ export default class EventCreateService extends Base {
                 isQRNeeded       : data.isQRNeeded,
                 organizatorId
             }, { transaction });
+
+            const users = await User.findAll({ transaction });
+
+            await event.addParticipant(users[0], { transaction });
+
 
             await transaction.commit();
 

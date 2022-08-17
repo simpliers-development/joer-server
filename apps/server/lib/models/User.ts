@@ -1,4 +1,4 @@
-import Sequelize, { Association, CreationOptional, HasManyGetAssociationsMixin, InferAttributes, InferCreationAttributes } from 'sequelize';
+import Sequelize, { Association, BelongsToManyGetAssociationsMixin, CreationOptional, HasManyGetAssociationsMixin, InferAttributes, InferCreationAttributes } from 'sequelize';
 import { common } from '../types';
 import { sequelize } from '../db';
 import Base from './Base';
@@ -15,6 +15,15 @@ export default class User extends Base<InferAttributes<User>, InferCreationAttri
             },
             onDelete : 'CASCADE'
         });
+
+        this.belongsToMany(Event, {
+            as         : 'Events',
+            through    : 'ParticipantsToEvents',
+            foreignKey : {
+                name      : 'participantId',
+                allowNull : false
+            }
+        });
     }
 
     declare id: CreationOptional<common.uuid>;
@@ -30,10 +39,13 @@ export default class User extends Base<InferAttributes<User>, InferCreationAttri
     declare lastName: string;
 
     declare static associations: {
-        OrganizedEvents: Association<User, Event>
+        OrganizedEvents: Association<User, Event>,
+        Events: Association<User, Event>,
     };
 
     declare getOrganizedEvents: HasManyGetAssociationsMixin<Event>;
+
+    declare getEvents: BelongsToManyGetAssociationsMixin<Event>;
 }
 
 User.init({
@@ -44,7 +56,7 @@ User.init({
     firstName : { type: Sequelize.STRING, allowNull: true },
     lastName  : { type: Sequelize.STRING, allowNull: true },
 
-    ...User.sequelizeTimeStampFields
+    ...User.sequelizeAllTimeStamps
 }, {
     paranoid  : true,
     tableName : 'Users',

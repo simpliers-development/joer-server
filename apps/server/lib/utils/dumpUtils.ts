@@ -12,7 +12,7 @@ export const dumpUser = (user: any) => {
         firstName : user.firstName,
         lastName  : user.lastName,
 
-        organizedEvents : user.OrganizedEvents.map(dumpEvent),
+        organizedEvents : user?.OrganizedEvents?.map(dumpEvent) || null,
 
         createdAt : formatDate(user.createdAt) as unknown as Date,
         updatedAt : formatDate(user.updatedAt) as unknown as Date

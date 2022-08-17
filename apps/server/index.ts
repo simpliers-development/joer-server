@@ -7,10 +7,20 @@ import * as models from './lib/models';
 import router from './lib/router';
 
 for (const modelName in models) { // eslint-disable-line
-    const model: Record<any, any> = sequelize.model(modelName);
+    if (modelName === 'CrossModels') {
+        for (const crossModelName in models.CrossModels) { // eslint-disable-line
+            const crossModel: Record<any, any> = sequelize.model(crossModelName);
 
-    if (model.initRelation) {
-        model.initRelation();
+            if (crossModel.initRelation) {
+                crossModel.initRelation();
+            }
+        }
+    } else {
+        const model: Record<any, any> = sequelize.model(modelName);
+
+        if (model.initRelation) {
+            model.initRelation();
+        }
     }
 }
 

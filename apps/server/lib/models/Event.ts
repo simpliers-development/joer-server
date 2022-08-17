@@ -1,4 +1,4 @@
-import Sequelize, { CreationOptional, ForeignKey, InferAttributes, InferCreationAttributes } from 'sequelize';
+import Sequelize, { BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, CreationOptional, ForeignKey, InferAttributes, InferCreationAttributes } from 'sequelize';
 import { common } from '../types';
 import { sequelize } from '../db';
 import Base from './Base';
@@ -14,6 +14,15 @@ export default class Event extends Base<InferAttributes<Event>, InferCreationAtt
                 allowNull : false
             },
             onDelete : 'CASCADE'
+        });
+
+        Event.belongsToMany(User, {
+            as         : 'Participants',
+            through    : 'ParticipantsToEvents',
+            foreignKey : {
+                name      : 'eventId',
+                allowNull : false
+            }
         });
     }
 
@@ -40,6 +49,8 @@ export default class Event extends Base<InferAttributes<Event>, InferCreationAtt
     declare location: string;
 
     declare organizatorId: ForeignKey<common.uuid>;
+
+    declare addParticipant: BelongsToManyAddAssociationMixin<User, common.uuid>;
 }
 
 
@@ -66,7 +77,7 @@ Event.init({
         allowNull : false
     },
 
-    ...Event.sequelizeTimeStampFields
+    ...Event.sequelizeAllTimeStamps
 }, {
     paranoid  : true,
     tableName : 'Events',

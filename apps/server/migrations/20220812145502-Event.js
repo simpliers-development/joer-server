@@ -31,6 +31,32 @@ module.exports = {
                 deletedAt : { type: Sequelize.DATE, allowNull: true }
             }, { transaction });
 
+            await queryInterface.createTable('ParticipantsToEvents', {
+                id            : { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true },
+                participantId : {
+                    type       : Sequelize.UUID,
+                    onDelete   : 'CASCADE',
+                    references : {
+                        model : 'Users',
+                        key   : 'id'
+                    },
+                    allowNull : false
+                },
+
+                eventId : {
+                    type       : Sequelize.UUID,
+                    onDelete   : 'CASCADE',
+                    references : {
+                        model : 'Events',
+                        key   : 'id'
+                    },
+                    allowNull : false
+                },
+
+
+                createdAt : { type: Sequelize.DATE, allowNull: false },
+                updatedAt : { type: Sequelize.DATE, allowNull: false }
+            }, { transaction });
             await transaction.commit();
         } catch (e) {
             console.error(e);
@@ -43,6 +69,7 @@ module.exports = {
         const transaction = await queryInterface.sequelize.transaction();
 
         try {
+            await queryInterface.dropTable('ParticipantsToEvents');
             await queryInterface.dropTable('Events');
 
             await transaction.commit();

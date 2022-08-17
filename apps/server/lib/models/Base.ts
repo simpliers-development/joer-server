@@ -13,7 +13,11 @@ export default class Base<T, K> extends Sequelize.Model<T, K> {
 
     static sequelizeTimeStampFields = {
         createdAt : { type: Sequelize.DATE, allowNull: false },
-        updatedAt : { type: Sequelize.DATE, allowNull: false },
+        updatedAt : { type: Sequelize.DATE, allowNull: false }
+    };
+
+    static sequelizeAllTimeStamps = {
+        ...this.sequelizeTimeStampFields,
         deletedAt : { type: Sequelize.DATE, allowNull: true }
     };
 

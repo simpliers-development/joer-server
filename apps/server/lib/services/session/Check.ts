@@ -1,4 +1,5 @@
 import { throwError } from '../../types/error';
+import X from '../../types/global/X';
 import BaseSessionService from './Base';
 
 export default class SessionCheckService extends BaseSessionService {
@@ -8,9 +9,9 @@ export default class SessionCheckService extends BaseSessionService {
         };
     }
 
-    static async execute(accessToken: string) {
+    static async execute({ token }: { token: string}) {
         try {
-            const userData = this.authHelper.verifyToken(accessToken);
+            const userData = this.authHelper.verifyToken(token);
             const user = await this.checkUser(userData.id);
 
             if (!user) {
@@ -20,12 +21,24 @@ export default class SessionCheckService extends BaseSessionService {
             return user;
         } catch (e: any) {
             if (e.message === 'TOKEN_EXPIRED') {
-                throwError('TOKEN_EXPIRED');
+                throw new X({
+                    code   : 'TOKEN_EXPIRED',
+                    fields : {
+                        token : 'TOKEN_EXPIRED'
+                    }
+                });
             }
 
             if (e.message === 'BAD_TOKEN') {
-                throwError('BAD_TOKEN');
+                throw new X({
+                    code   : 'BAD_TOKEN',
+                    fields : {
+                        token : 'BAD_TOKEN'
+                    }
+                });
             }
+
+            throw e;
         }
     }
 }

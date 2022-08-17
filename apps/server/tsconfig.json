@@ -2,6 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "files": [],
   "include": [],
+  "compilerOptions": {
+    "typeRoots": ["./lib/types"]
+  },
   "references": [
     {
       "path": "./tsconfig.app.json",

@@ -64,14 +64,14 @@ export function checkDefaultErrors(type: string, data: string): never | void {
         throw new X({
             code   : 'TOKEN_EXPIRED',
             fields : {
-                [data] : 'TOKEN_EXPIRED'
+                user : 'TOKEN_EXPIRED'
             }
         });
     } else if (type === 'BAD_TOKEN') {
         throw new X({
             code   : 'BAD_TOKEN',
             fields : {
-                [data] : 'BAD_TOKEN'
+                user : 'BAD_TOKEN'
             }
         });
     }

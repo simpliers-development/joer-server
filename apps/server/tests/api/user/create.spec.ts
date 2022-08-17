@@ -1,6 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import supertest from 'supertest';
-import TestFactory from '../../TestFactory';
+import TestFactory, { User } from '../../TestFactory';
 import validate from '../../../lib/utils/livr';
 import app from '../../../index';
 
@@ -64,6 +64,7 @@ describe('User create', () => {
     });
     describe('given not unique fields', () => {
         it('should return email not unique error', async () => {
+            User.create(newUser);
             await request
                 .post('/api/v1/users')
                 .send(newUser)
@@ -81,6 +82,7 @@ describe('User create', () => {
                 });
         });
         it('should return username not unique error', async () => {
+            User.create(newUser);
             await request
                 .post('/api/v1/users')
                 .send({ ...newUser, email: 'new@email.com' })
@@ -122,6 +124,10 @@ describe('User create', () => {
                     expect(body).toStrictEqual(expected);
                 });
         });
+    });
+
+    afterEach(async () => {
+        await factory.cleanUp();
     });
 
     afterAll(async () => {

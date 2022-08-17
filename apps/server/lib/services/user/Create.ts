@@ -35,16 +35,6 @@ export default class UserCreateService extends Base {
 
             if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
 
-            if (data.password !== data.passwordConfirmation) {
-                throw new X({
-                    code   : 'AUTHENTICATION_FAILED',
-                    fields : {
-                        password             : 'INVALID',
-                        passwordConfirmation : 'INVALID'
-                    }
-                });
-            }
-
             const hashPassword = await this.authHelper.hashPassword(data.password);
 
             const newUser = await User.create(
@@ -68,4 +58,17 @@ export default class UserCreateService extends Base {
             throw e;
         }
     }
+
+    static cookies = (_data: any) => {
+        return [
+            {
+                name  : 'accessToken',
+                value : _data.accessToken
+            },
+            {
+                name  : 'refreshToken',
+                value : _data.refreshToken
+            }
+        ];
+    };
 }

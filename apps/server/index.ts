@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import config from './lib/config';
 import db from './lib/db';
@@ -18,6 +19,7 @@ process.on('SIGINT', function () {
 });
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use('/api/v1', router);
 
 if (!config.isTest) {

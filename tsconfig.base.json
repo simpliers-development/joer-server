@@ -22,6 +22,7 @@
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
+            "@joer/auth-helper": ["libs/auth-helper/src/index.ts"],
             "@joer/utils": ["libs/utils/src/index.ts"]
         }
     },

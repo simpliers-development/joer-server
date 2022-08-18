@@ -1,6 +1,7 @@
 import pointer from 'json-pointer';
 import { toArray } from '@joer/utils';
-
+import { AuthHelper } from '@joer/auth-helper';
+import config from '../config';
 
 export default class BaseService {
     public static _rawParams: any;
@@ -29,8 +30,21 @@ export default class BaseService {
         return data;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    static cookies = (_data: any): ICookie[] => {
+        return [];
+    };
+
     public static validationRules: any = [];
 
     public static errors: Record<string, (data: { type: string; data: any }) => void> = {};
+
+    public static authHelper = new AuthHelper(config.jwt);
+
+    public static context: any;
 }
 
+interface ICookie {
+    name: string;
+    value : string;
+}

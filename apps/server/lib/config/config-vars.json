@@ -29,7 +29,13 @@
         "port": "{{APP_PORT}}"
     },
     "jwt": {
-        "saltRounds": "{{SALT_ROUNDS}}"
+        "saltRounds": "{{SALT_ROUNDS}}",
+        "secret":  "{{SECRET_KEY}}",
+        "accessExpireTime": "{{ACCESS_EXPIRATION}}",
+        "refreshExpireTime": "{{REFRESH_EXPIRATION}}",
+        "issuer":"{{ISSUER}}",
+        "subject":"{{SUBJECT}}",
+        "audience":"{{AUDIENCE}}"
     },
     "email": {
         "host": "{{EMAIL_HOST}}",

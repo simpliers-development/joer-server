@@ -9,7 +9,7 @@ const factory = new TestFactory();
 
 const user = users[0];
 
-describe('User sign up', () => {
+describe('User sign in', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();

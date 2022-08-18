@@ -12,6 +12,7 @@ router.patch('/users/:id', controllers.user.update);
 router.delete('/users/:id', controllers.user.delete);
 
 router.post('/signin', controllers.session.create);
+router.delete('/logout', controllers.session.delete);
 
 router.get('/test', checkSession, controllers.user.test);
 

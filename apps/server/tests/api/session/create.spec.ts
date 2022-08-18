@@ -12,7 +12,7 @@ const userData = {
     password : '8QMnxW'
 };
 
-describe('User sign up', () => {
+describe('User sign in', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();

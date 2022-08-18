@@ -7,22 +7,16 @@ import app from '../../../index';
 const request = supertest.agent(app);
 const factory = new TestFactory();
 
-const newUser = {
-    email                : 'email@gmail.com',
-    firstName            : 'MyName',
-    lastName             : 'MySurname',
-    userName             : 'MyUsername',
-    password             : 'agz4ndZv',
-    passwordConfirmation : 'agz4ndZv'
+const userData = {
+    email    : 'ujankovsky0@npr.org',
+    password : '8QMnxW'
 };
 
-describe('User create', () => {
+describe('User sign up', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();
-            await request.post('/api/v1/signup')
-                .send(newUser)
-                .expect(200);
+            await factory.setDefaultUsers(true);
         } catch (e) {
             console.error(e);
             throw e;
@@ -32,7 +26,7 @@ describe('User create', () => {
         it('should return user and tokens', async () => {
             await request
                 .post('/api/v1/signin')
-                .send({ email: newUser.email, password: newUser.password })
+                .send({ email: userData.email, password: userData.password })
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(1);
@@ -56,11 +50,11 @@ describe('User create', () => {
                 });
         });
     });
-    describe('given not wrong password', () => {
-        it('should return wrong error', async () => {
+    describe('given wrong password', () => {
+        it('should return wrong password error', async () => {
             await request
                 .post('/api/v1/signin')
-                .send({ email: newUser.email, password: 'wrong' })
+                .send({ email: userData.email, password: 'wrong' })
                 .expect(200)
                 .then(({ body }) => {
                     const expected = {
@@ -76,7 +70,9 @@ describe('User create', () => {
                     expect(body).toStrictEqual(expected);
                 });
         });
-        it('should return username not unique error', async () => {
+    });
+    describe('given wrong password', () => {
+        it('should return wrong password error', async () => {
             await request
                 .post('/api/v1/signin')
                 .send({ email: 'not_exist@mail.com', password: 'doesnt_matter' })
@@ -93,7 +89,6 @@ describe('User create', () => {
                             }
                         }
                     };
-
 
                     expect(body).toStrictEqual(expected);
                 });

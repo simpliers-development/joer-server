@@ -1,25 +1,18 @@
 /* eslint-disable max-nested-callbacks */
 import supertest from 'supertest';
-import TestFactory, { User } from '../../TestFactory';
+import TestFactory, { users } from '../../TestFactory';
 import validate from '../../../lib/utils/livr';
 import app from '../../../index';
+import { dumpCreateUser } from '../utils';
 
 const request = supertest.agent(app);
 const factory = new TestFactory();
-
-const newUser = {
-    email                : 'email@gmail.com',
-    firstName            : 'MyName',
-    lastName             : 'MySurname',
-    userName             : 'MyUsername',
-    password             : 'agz4ndZv',
-    passwordConfirmation : 'agz4ndZv'
-};
 
 describe('User create', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();
+            await factory.setUser(dumpCreateUser(users[2]));
         } catch (e) {
             console.error(e);
             throw e;
@@ -29,7 +22,7 @@ describe('User create', () => {
         it('should return a created user', async () => {
             await request
                 .post('/api/v1/signup')
-                .send(newUser)
+                .send(dumpCreateUser(users[0]))
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(1);
@@ -55,10 +48,9 @@ describe('User create', () => {
     });
     describe('given not unique fields', () => {
         it('should return email not unique error', async () => {
-            await User.create(newUser);
             await request
                 .post('/api/v1/signup')
-                .send(newUser)
+                .send(dumpCreateUser({ ...users[1], email: users[2].email }))
                 .expect(200)
                 .then(({ body }) => {
                     const expected = {
@@ -73,10 +65,9 @@ describe('User create', () => {
                 });
         });
         it('should return username not unique error', async () => {
-            await User.create(newUser);
             await request
                 .post('/api/v1/signup')
-                .send({ ...newUser, email: 'new@email.com' })
+                .send(dumpCreateUser({ ...users[1], userName: users[2].userName }))
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(0);
@@ -97,7 +88,7 @@ describe('User create', () => {
         it('should return password missmath error', async () => {
             await request
                 .post('/api/v1/signup')
-                .send({ ...newUser, passwordConfirmation: 'wringPassword' })
+                .send({ ...users[1], passwordConfirmation: 'wrongPassword' })
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(0);
@@ -115,10 +106,6 @@ describe('User create', () => {
                     expect(body).toStrictEqual(expected);
                 });
         });
-    });
-
-    afterEach(async () => {
-        await factory.cleanUp();
     });
 
     afterAll(async () => {

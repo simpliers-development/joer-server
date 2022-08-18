@@ -6,7 +6,7 @@ import X from '../../types/global/X';
 import { dumpUser, dumpTokenData } from '../../utils/dumpUtils';
 import Base from './Base';
 
-interface IUser {
+interface ISessionCreatePayload {
     email: string;
     password: string;
 }
@@ -18,7 +18,7 @@ export default class SessionCreateService extends Base {
         };
     }
 
-    static async execute(data: IUser) {
+    static async execute(data: ISessionCreatePayload) {
         const transaction = await sequelize.transaction();
 
         try {

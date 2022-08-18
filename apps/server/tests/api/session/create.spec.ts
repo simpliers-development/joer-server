@@ -1,22 +1,19 @@
 /* eslint-disable max-nested-callbacks */
 import supertest from 'supertest';
-import TestFactory from '../../TestFactory';
+import TestFactory, { users } from '../../TestFactory';
 import validate from '../../../lib/utils/livr';
 import app from '../../../index';
 
 const request = supertest.agent(app);
 const factory = new TestFactory();
 
-const userData = {
-    email    : 'ujankovsky0@npr.org',
-    password : '8QMnxW'
-};
+const user = users[0];
 
 describe('User sign up', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();
-            await factory.setDefaultUsers(true);
+            await factory.setDefaultUsers({ hashPassword: true });
         } catch (e) {
             console.error(e);
             throw e;
@@ -24,9 +21,14 @@ describe('User sign up', () => {
     });
     describe('given correct user data', () => {
         it('should return user and tokens', async () => {
+            const data = {
+                email    : user.email,
+                password : user.password
+            };
+
             await request
                 .post('/api/v1/signin')
-                .send({ email: userData.email, password: userData.password })
+                .send(data)
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(1);
@@ -52,9 +54,14 @@ describe('User sign up', () => {
     });
     describe('given wrong password', () => {
         it('should return wrong password error', async () => {
+            const data = {
+                email    : user.email,
+                password : 'wrong'
+            };
+
             await request
                 .post('/api/v1/signin')
-                .send({ email: userData.email, password: 'wrong' })
+                .send(data)
                 .expect(200)
                 .then(({ body }) => {
                     const expected = {
@@ -71,11 +78,16 @@ describe('User sign up', () => {
                 });
         });
     });
-    describe('given wrong password', () => {
-        it('should return wrong password error', async () => {
+    describe('given not existing user', () => {
+        it('should return user not exist error', async () => {
+            const data = {
+                email    : 'not_exist@mail.com',
+                password : 'doesnt_matter'
+            };
+
             await request
                 .post('/api/v1/signin')
-                .send({ email: 'not_exist@mail.com', password: 'doesnt_matter' })
+                .send(data)
                 .expect(200)
                 .then(({ body }) => {
                     expect(body.status).toBe(0);

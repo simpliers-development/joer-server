@@ -27,7 +27,7 @@ export default class TestFactory {
         await sequelize.query(`TRUNCATE TABLE ${tables.map(m => `"${m}"`).join(', ')} restart identity CASCADE;`);
     }
 
-    async setDefaultUsers(hashPassword = false): Promise<User[] | undefined> {
+    async setDefaultUsers({ hashPassword = false } = {}): Promise<User[] | undefined> {
         try {
             const userMap = await Promise.all(users.map(async u => ({
                 id        : u.id,
@@ -48,7 +48,7 @@ export default class TestFactory {
         return;
     }
 
-    async setUser(user: CreationAttributes<User>, hashPassword = false): Promise<User | undefined> {
+    async setUser(user: CreationAttributes<User>, hashPassword = false): Promise<User> {
         try {
             const newUser = {
                 id        : user.id,
@@ -64,9 +64,8 @@ export default class TestFactory {
             return User.create(newUser);
         } catch (e) {
             console.log(e);
+            throw e;
         }
-
-        return;
     }
 }
 

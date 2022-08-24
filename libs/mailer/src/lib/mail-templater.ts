@@ -44,16 +44,10 @@ export class MailTemplater extends BaseMailer {
             const body = await readFile(path.join(emailPath, folderName, 'body.html'), 'utf-8');
             const subject = await readFile(path.join(emailPath, folderName, 'subject.html'), 'utf-8');
 
-            return templateOptions ?
-                {
-                    body    : this.interpolate(body, templateOptions),
-                    subject : this.interpolate(subject, templateOptions)
-                }
-                :
-                {
-                    body,
-                    subject
-                };
+            return {
+                body    : this.interpolate(body, templateOptions),
+                subject : this.interpolate(subject, templateOptions)
+            };
         } catch (error: any) {
             throw new Error(JSON.stringify({ message: error.message, payload: templateOptions }));
         }

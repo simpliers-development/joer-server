@@ -16,6 +16,7 @@ router.delete('/logout', controllers.session.delete);
 
 router.get('/test', checkSession, controllers.user.test);
 
-router.post('/mailtest', controllers.mailTest.test);
+router.post('/mailtest', controllers.mailTest.testMailer);
+router.post('/templatertest', controllers.mailTest.testMailTemplater);
 export default router;
 

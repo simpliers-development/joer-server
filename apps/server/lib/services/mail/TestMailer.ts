@@ -3,7 +3,7 @@ import config from '../../config';
 import Base from '../Base';
 
 
-export default class UserListService extends Base {
+export default class MailerService extends Base {
     static async execute(body: any) {
         const mailer = new Mailer({ secure: false, ...config.email });
 

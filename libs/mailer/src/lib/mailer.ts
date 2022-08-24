@@ -1,5 +1,5 @@
 import { SendMailOptions, SentMessageInfo } from 'nodemailer';
-import { BaseMailer, MailOptions } from './BaseMailer';
+import { BaseMailer, MailOptions } from './base-mailer';
 
 export class Mailer extends BaseMailer  {
     constructor(data: MailOptions) {

@@ -2,7 +2,7 @@ import path from 'path';
 import { readFile } from 'fs/promises';
 
 import { SendMailOptions, SentMessageInfo } from 'nodemailer';
-import { BaseMailer, MailOptions } from './BaseMailer';
+import { BaseMailer, MailOptions } from './base-mailer';
 
 // eslint-disable-next-line no-shadow
 export enum EMAIL_TYPES {

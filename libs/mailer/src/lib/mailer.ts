@@ -29,18 +29,18 @@ export class Mailer {
     }
 
 
-    public sendTextMail(to: string, mail: string, text: string): Promise<SentMessageInfo> {
+    public sendTextMail(to: string, text: string, subject?: string): Promise<SentMessageInfo> {
         const options: SendMailOptions = {
-            ...this.generateOptions(to, mail),
+            ...this.generateOptions(to, subject),
             text
         };
 
         return this.sendMail(options);
     }
 
-    public sendHtmlMail(to: string, mail: string, html: string): Promise<SentMessageInfo> {
+    public sendHtmlMail(to: string, html: string, subject?: string): Promise<SentMessageInfo> {
         const options: SendMailOptions = {
-            ...this.generateOptions(to, mail),
+            ...this.generateOptions(to, subject),
             html
         };
 
@@ -57,7 +57,7 @@ export class Mailer {
         }
     }
 
-    private generateOptions(to: string | string[],  subject?: string): SendMailOptions {
+    private generateOptions(to: string | string[], subject?: string): SendMailOptions {
         const recepients: string = this.generateRecepients(to);
         const options: SendMailOptions = {
             from : this.OPTIONS?.auth?.user,
@@ -73,7 +73,7 @@ export class Mailer {
             return to;
         }
 
-        return to.reduce((others, recepient, index) => index === 0 ? recepient : `${others}, ${recepient}`, '');
+        return to.join(', ');
     }
 }
 

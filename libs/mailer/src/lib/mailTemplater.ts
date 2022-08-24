@@ -26,7 +26,7 @@ export class MailTemplater extends BaseMailer {
         this.project = project;
     }
 
-    public async sendTemplateEmail(type: EMAIL_TYPES, to: string, templateOptions?: object) {
+    public async sendTemplateEmail(type: EMAIL_TYPES, to: string, templateOptions: object) {
         const data = await this._getTemplates(type, templateOptions);
         const options: SendMailOptions = {
             ...this.generateOptions(to, data.subject),
@@ -38,22 +38,24 @@ export class MailTemplater extends BaseMailer {
     }
 
 
-    private async _getTemplates(folderName: EMAIL_TYPES, templateOptions?: object): Promise<MailData> {
-        const emailPath = path.join(__dirname, '../../../libs/mailer/templates', this.project);
+    private async _getTemplates(folderName: EMAIL_TYPES, templateOptions: object): Promise<MailData> {
+        try {
+            const emailPath = path.join(__dirname, '../../../libs/mailer/templates', this.project);
+            const body = await readFile(path.join(emailPath, folderName, 'body.html'), 'utf-8');
+            const subject = await readFile(path.join(emailPath, folderName, 'subject.html'), 'utf-8');
 
-        console.log(emailPath);
-        const body = await readFile(path.join(emailPath, folderName, 'body.html'), 'utf-8');
-        const subject = await readFile(path.join(emailPath, folderName, 'subject.html'), 'utf-8');
-
-        return templateOptions ?
-            {
-                body    : this.interpolate(body, templateOptions),
-                subject : this.interpolate(subject, templateOptions)
-            }
-            :
-            {
-                body,
-                subject
-            };
+            return templateOptions ?
+                {
+                    body    : this.interpolate(body, templateOptions),
+                    subject : this.interpolate(subject, templateOptions)
+                }
+                :
+                {
+                    body,
+                    subject
+                };
+        } catch (error: any) {
+            throw new Error(JSON.stringify({ message: error.message, payload: templateOptions }));
+        }
     }
 }

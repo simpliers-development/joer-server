@@ -1,0 +1,8 @@
+{
+    "name": "@joer/mailer",
+    "version": "0.0.1",
+    "type": "commonjs",
+    "devDependencies": {
+        "@types/nodemailer": "^6.4.5"
+    }
+}

@@ -19,7 +19,13 @@ export default class UserShowService extends Base {
         const transaction = await sequelize.transaction();
 
         try {
-            const user = await User.findById(id, { transaction });
+            const user = await User.findById(id, {
+                transaction,
+                include : [
+                    User.associations.OrganizedEvents
+                ]
+            });
+
 
             if (!user) {
                 throw new X({

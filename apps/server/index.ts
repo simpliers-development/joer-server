@@ -2,9 +2,27 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import config from './lib/config';
-import db from './lib/db';
-import './lib/models';
+import db, { sequelize } from './lib/db';
+import * as models from './lib/models';
 import router from './lib/router';
+
+for (const modelName in models) { // eslint-disable-line
+    if (modelName === 'CrossModels') {
+        for (const crossModelName in models.CrossModels) { // eslint-disable-line
+            const crossModel: Record<any, any> = sequelize.model(crossModelName);
+
+            if (crossModel.initRelation) {
+                crossModel.initRelation();
+            }
+        }
+    } else {
+        const model: Record<any, any> = sequelize.model(modelName);
+
+        if (model.initRelation) {
+            model.initRelation();
+        }
+    }
+}
 
 const app = express();
 const PORT = process.env.PORT || config.app.port;

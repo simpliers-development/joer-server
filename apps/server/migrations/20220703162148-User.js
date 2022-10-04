@@ -15,7 +15,7 @@ module.exports = {
                 createdAt : { type: Sequelize.DATE, allowNull: false },
                 updatedAt : { type: Sequelize.DATE, allowNull: false },
                 deletedAt : { type: Sequelize.DATE, allowNull: true }
-            });
+            }, { transaction });
 
             await transaction.commit();
         } catch (e) {

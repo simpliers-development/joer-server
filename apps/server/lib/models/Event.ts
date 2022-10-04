@@ -1,4 +1,4 @@
-import Sequelize, { BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, CreationOptional, ForeignKey, InferAttributes, InferCreationAttributes } from 'sequelize';
+import Sequelize, { BelongsToManyAddAssociationMixin, CreationOptional, ForeignKey, InferAttributes, InferCreationAttributes } from 'sequelize';
 import { common } from '../types';
 import { sequelize } from '../db';
 import Base from './Base';

@@ -2,7 +2,6 @@ import { sequelize } from '../../db';
 import { User } from '../../models';
 import { uuid } from '../../types/common';
 import { throwError } from '../../types/error';
-import X from '../../types/global/X';
 import { dumpUser, dumpTokenData } from '../../utils/dumpUtils';
 import Base from './Base';
 
@@ -11,30 +10,22 @@ interface IUserCreate {
     email: string;
     userName: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirmation: string;
     firstName: string;
     lastName: string;
 }
 export default class UserCreateService extends Base {
     static get validationRules() {
         return {
-            email           : [ 'required', 'email' ],
-            userName        : [ 'required', 'string' ],
-            password        : [ 'required', 'string', { 'min_length': 4 } ],
-            confirmPassword : [ 'required', { equal_to_field: 'password' } ],
-            firstName       : [ 'required', 'string' ],
-            lastName        : [ 'required', 'string' ]
+            email                : [ 'required', 'email' ],
+            userName             : [ 'required', 'string' ],
+            password             : [ 'required', 'string', { 'min_length': 4 } ],
+            passwordConfirmation : [ 'required', { equal_to_field: 'password' } ],
+            firstName            : [ 'required', 'string' ],
+            lastName             : [ 'required', 'string' ]
         };
     }
 
-    static cookies = (_data: any) => {
-        return [
-            {
-                name  : 'token',
-                value : _data.accessToken
-            }
-        ];
-    };
 
     static async execute(data: IUserCreate) {
         const transaction = await sequelize.transaction();
@@ -43,16 +34,6 @@ export default class UserCreateService extends Base {
             if (await User.findOne({ where: { email: data.email } })) throwError('NOT_UNIQUE', 'email');
 
             if (await User.findOne({ where: { userName: data.userName } })) throwError('NOT_UNIQUE', 'userName');
-
-            if (data.password !== data.confirmPassword) {
-                throw new X({
-                    code   : 'AUTHENTICATION_FAILED',
-                    fields : {
-                        password        : 'INVALID',
-                        confirmPassword : 'INVALID'
-                    }
-                });
-            }
 
             const hashPassword = await this.authHelper.hashPassword(data.password);
 
@@ -77,4 +58,17 @@ export default class UserCreateService extends Base {
             throw e;
         }
     }
+
+    static cookies = (_data: any) => {
+        return [
+            {
+                name  : 'accessToken',
+                value : _data.accessToken
+            },
+            {
+                name  : 'refreshToken',
+                value : _data.refreshToken
+            }
+        ];
+    };
 }

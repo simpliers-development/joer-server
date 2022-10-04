@@ -1,38 +1,33 @@
 /* eslint-disable max-nested-callbacks */
 import supertest from 'supertest';
-import TestFactory, { User, users } from '../../TestFactory';
+import TestFactory, { users } from '../../TestFactory';
 import validate from '../../../lib/utils/livr';
 import app from '../../../index';
-import { dumpCreateUser } from '../utils';
 
 const request = supertest.agent(app);
 const factory = new TestFactory();
 
-let existingUser: User;
+const user = users[0];
 
-describe('User create', () => {
+describe('User sign in', () => {
     beforeAll(async () => {
         try {
             await factory.cleanUp();
-            existingUser = await factory.setUser({
-                'email'     : 'jlaborda2@jigsy.com',
-                'userName'  : 'jlaborda2',
-                'firstName' : 'Jeanelle',
-                'lastName'  : 'Laborda',
-                'password'  : 'TVyflvJ'
-            });
+            await factory.setDefaultUsers({ hashPassword: true });
         } catch (e) {
             console.error(e);
             throw e;
         }
     });
     describe('given correct user data', () => {
-        it('should return a created user', async () => {
-            const userData = users[0];
-            const data = dumpCreateUser(userData);
+        it('should return user and tokens', async () => {
+            const data = {
+                email    : user.email,
+                password : user.password
+            };
 
             await request
-                .post('/api/v1/signup')
+                .post('/api/v1/signin')
                 .send(data)
                 .expect(200)
                 .then(({ body }) => {
@@ -57,49 +52,25 @@ describe('User create', () => {
                 });
         });
     });
-    describe('given not unique fields', () => {
-        it('should return email not unique error', async () => {
-            const userData = users[1];
-            const data = dumpCreateUser({
-                ...userData,
-                email : existingUser.email
-            });
+    describe('given wrong password', () => {
+        it('should return wrong password error', async () => {
+            const data = {
+                email    : user.email,
+                password : 'wrong'
+            };
 
             await request
-                .post('/api/v1/signup')
+                .post('/api/v1/signin')
                 .send(data)
                 .expect(200)
                 .then(({ body }) => {
                     const expected = {
                         status : 0,
                         error  : {
-                            fields : { email: 'NOT_UNIQUE' },
-                            code   : 'NOT_UNIQUE'
-                        }
-                    };
-
-                    expect(body).toStrictEqual(expected);
-                });
-        });
-        it('should return username not unique error', async () => {
-            const userData = users[1];
-            const data = dumpCreateUser({
-                ...userData,
-                userName : existingUser.userName
-            });
-
-            await request
-                .post('/api/v1/signup')
-                .send(data)
-                .expect(200)
-                .then(({ body }) => {
-                    expect(body.status).toBe(0);
-
-                    const expected = {
-                        status : 0,
-                        error  : {
-                            fields : { userName: 'NOT_UNIQUE' },
-                            code   : 'NOT_UNIQUE'
+                            code   : 'WRONG_PASSWORD',
+                            fields : {
+                                user : 'WRONG_PASSWORD'
+                            }
                         }
                     };
 
@@ -107,15 +78,15 @@ describe('User create', () => {
                 });
         });
     });
-    describe('given missmatching passwords', () => {
-        it('should return password missmath error', async () => {
-            const userData = users[1];
-            const data = dumpCreateUser(userData, {
-                passwordConfirmation : 'wrondPassword'
-            });
+    describe('given not existing user', () => {
+        it('should return user not exist error', async () => {
+            const data = {
+                email    : 'not_exist@mail.com',
+                password : 'doesnt_matter'
+            };
 
             await request
-                .post('/api/v1/signup')
+                .post('/api/v1/signin')
                 .send(data)
                 .expect(200)
                 .then(({ body }) => {
@@ -124,9 +95,9 @@ describe('User create', () => {
                     const expected = {
                         status : 0,
                         error  : {
-                            code   : 'FORMAT_ERROR',
+                            code   : 'NOT_FOUND',
                             fields : {
-                                passwordConfirmation : 'FIELDS_NOT_EQUAL'
+                                user : 'NOT_FOUND'
                             }
                         }
                     };

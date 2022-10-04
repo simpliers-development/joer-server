@@ -7,11 +7,10 @@ export default class UserListService extends Base {
         const transaction = await sequelize.transaction();
 
         try {
-            console.log(this.context.user);
-
             await transaction.commit();
 
             return {
+                ...this.context.user
             };
         } catch (e) {
             await transaction.rollback();

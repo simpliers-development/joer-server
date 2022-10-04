@@ -3,6 +3,7 @@
     "version": 2,
     "projects": {
         "auth-helper": "libs/auth-helper",
+        "mailer": "libs/mailer",
         "server": "apps/server",
         "utils": "libs/utils"
     }

@@ -6,6 +6,6 @@ import mailTest from './mailTest';
 export default {
     user,
     session,
-    event
+    event,
     mailTest
 };
